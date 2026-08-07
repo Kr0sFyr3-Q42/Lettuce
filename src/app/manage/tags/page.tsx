@@ -85,7 +85,7 @@ export default function TagsPage() {
       <div>
         <h1 className="text-xl font-semibold text-foreground">Tags</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Stel in welke tags standaard actief zijn op het configureer scherm.
+          Beheer je tags en stel in welke standaard actief zijn bij het plannen.
         </p>
       </div>
 
