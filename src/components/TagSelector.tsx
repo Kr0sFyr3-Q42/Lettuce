@@ -3,19 +3,24 @@
 import { useEffect, useState } from 'react'
 import Toggle, { Checkbox } from '@/components/ui/Toggle'
 import Button from '@/components/ui/Button'
+import { type Locale, t } from '@/lib/i18n'
 import type { Tag, TagAssignments } from '@/lib/types'
 
+// Always Dutch — keys must match tag assignments and AI prompt day names
 const DAY_LABELS = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag']
-const DAY_SHORT  = ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo']
+const DAY_SHORT_NL = ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo']
+const DAY_SHORT_EN = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 
 export const EMPTY_TAG_ASSIGNMENTS: TagAssignments = { allDays: [], perDay: {} }
 
 type Props = {
   value: TagAssignments
   onChange: (assignments: TagAssignments) => void
+  locale?: Locale
 }
 
-export default function TagSelector({ value, onChange }: Props) {
+export default function TagSelector({ value, onChange, locale = 'nl' }: Props) {
+  const DAY_SHORT = locale === 'en' ? DAY_SHORT_EN : DAY_SHORT_NL
   const [tagList, setTagList]     = useState<Tag[]>([])
   const [newName, setNewName]     = useState('')
   const [newSnippet, setNewSnippet] = useState('')
@@ -65,7 +70,7 @@ export default function TagSelector({ value, onChange }: Props) {
     <div>
       <div className="border border-border rounded-xl overflow-hidden">
         {tagList.length === 0 && (
-          <p className="px-4 py-8 text-sm text-muted-foreground text-center">Tags laden...</p>
+          <p className="px-4 py-8 text-sm text-muted-foreground text-center">{t(locale, 'tag_loading')}</p>
         )}
         {tagList.map(tag => (
           <div key={tag.id} className="border-b border-border last:border-0 bg-card px-4 py-3">
@@ -81,7 +86,7 @@ export default function TagSelector({ value, onChange }: Props) {
                   {tag.name}
                 </span>
                 {isAllDays(tag.id) && (
-                  <span className="text-xs text-muted-foreground italic">hele week</span>
+                  <span className="text-xs text-muted-foreground italic">{t(locale, 'tag_whole_week')}</span>
                 )}
               </div>
 
@@ -111,28 +116,28 @@ export default function TagSelector({ value, onChange }: Props) {
             onClick={() => setShowForm(true)}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors underline"
           >
-            + Nieuwe tag aanmaken
+            {t(locale, 'tag_new_btn')}
           </button>
         ) : (
           <div className="border border-border rounded-xl p-4 bg-secondary space-y-3">
             {error && <p className="text-xs text-red-500">{error}</p>}
             <input
               className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              placeholder="Naam (bijv. Nootvrij)"
+              placeholder={t(locale, 'tag_name_ph')}
               value={newName}
               onChange={e => setNewName(e.target.value)}
               required
             />
             <textarea
               className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring h-16 resize-none"
-              placeholder="Prompt instructie (bijv. Geen noten of notenproducten.)"
+              placeholder={t(locale, 'tag_snippet_ph')}
               value={newSnippet}
               onChange={e => setNewSnippet(e.target.value)}
               required
             />
             <div className="flex gap-2">
-              <Button type="submit" size="sm" onClick={createTag as never}>Toevoegen</Button>
-              <Button type="button" variant="ghost" size="sm" onClick={() => setShowForm(false)}>Annuleer</Button>
+              <Button type="submit" size="sm" onClick={createTag as never}>{t(locale, 'tag_add')}</Button>
+              <Button type="button" variant="ghost" size="sm" onClick={() => setShowForm(false)}>{t(locale, 'tag_cancel')}</Button>
             </div>
           </div>
         )}

@@ -4,25 +4,25 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import ThemeToggle from './ThemeToggle'
-
-const LINKS = [
-  { href: '/',               label: 'Plannen' },
-  { href: '/manage/tags',    label: 'Tags' },
-  { href: '/manage/freezer', label: 'Kliekjes' },
-  { href: '/manage/pantry',  label: 'Voorraad' },
-  { href: '/saved',          label: 'Opgeslagen' },
-]
+import { useLocale } from '@/hooks/useLocale'
 
 export default function MobileNav() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const { locale, setLocale, t } = useLocale()
 
-  // Close on route change
   useEffect(() => { setOpen(false) }, [pathname])
+
+  const LINKS = [
+    { href: '/',               label: t('nav_plan') },
+    { href: '/manage/tags',    label: t('nav_tags') },
+    { href: '/manage/freezer', label: t('nav_leftovers') },
+    { href: '/manage/pantry',  label: t('nav_pantry') },
+    { href: '/saved',          label: t('nav_saved') },
+  ]
 
   return (
     <div className="relative">
-      {/* Hamburger button */}
       <button
         onClick={() => setOpen(o => !o)}
         aria-label={open ? 'Menu sluiten' : 'Menu openen'}
@@ -33,12 +33,8 @@ export default function MobileNav() {
         <span className={`block w-5 h-0.5 bg-foreground transition-all duration-200 origin-center ${open ? '-translate-y-2 -rotate-45' : ''}`} />
       </button>
 
-      {/* Backdrop */}
-      {open && (
-        <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-      )}
+      {open && <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />}
 
-      {/* Dropdown */}
       {open && (
         <div className="absolute right-0 top-full mt-2 w-44 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-50">
           {LINKS.map(({ href, label }) => (
@@ -53,6 +49,16 @@ export default function MobileNav() {
               {label}
             </Link>
           ))}
+
+          {/* Language toggle */}
+          <button
+            onClick={() => setLocale(locale === 'nl' ? 'en' : 'nl')}
+            className="w-full border-t border-border px-4 py-3 flex items-center justify-between text-sm text-foreground hover:bg-secondary transition-colors"
+          >
+            <span>{t('nav_language')}</span>
+            <span>{t('nav_language_flag')}</span>
+          </button>
+
           <ThemeToggle className="w-full border-t border-border px-4 py-3 flex items-center justify-between text-sm text-foreground hover:bg-secondary transition-colors" />
         </div>
       )}
