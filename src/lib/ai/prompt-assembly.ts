@@ -126,6 +126,7 @@ VASTE REGELS:
 - Plan één maaltijd per dag (avondeten).
 
 DIEETBEPERKINGEN PER DAG:
+De onderstaande beperkingen gelden UITSLUITEND voor de genoemde dag. Ze mogen GEEN invloed hebben op de stijl, het type of de complexiteit van maaltijden op andere dagen. Een "culinair" tag op maandag betekent niet dat dinsdag ook culinair moet zijn.
 ${formatDayConstraints(tagAssignments, allTags)}`
 
   const personsBlock = DAYS.map(d =>
