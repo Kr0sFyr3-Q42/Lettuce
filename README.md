@@ -5,7 +5,11 @@ A self-hosted AI meal planner for your home network. Tell it how many people are
 
 ---
 
+
+## Impression
+
 <img width="2819" height="2042" alt="image" src="https://github.com/user-attachments/assets/b33f7c13-b7f7-4573-b35b-f0967cd97d14" />
+<img width="2827" height="2042" alt="image" src="https://github.com/user-attachments/assets/d0bcdb52-0291-4ecc-942e-0d12163db67d" />
 
 
 ---
