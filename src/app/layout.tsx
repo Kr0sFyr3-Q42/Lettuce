@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import NavSteps from '@/components/NavSteps'
 import MobileNav from '@/components/MobileNav'
-import ThemeToggle from '@/components/ThemeToggle'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -21,22 +20,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/" className="text-foreground hover:opacity-80 transition-opacity flex-shrink-0 font-semibold tracking-tight text-lg">
                 🥬 Lettuce
               </Link>
-              <div className="hidden md:block">
-                <NavSteps />
-              </div>
-              <div className="flex items-center gap-5">
-                <nav className="hidden md:flex items-center gap-5 text-sm text-muted-foreground">
-                  <Link href="/manage/tags" className="hover:text-foreground transition-colors">Tags</Link>
-                  <Link href="/manage/freezer" className="hover:text-foreground transition-colors">Kliekjes</Link>
-                  <Link href="/manage/pantry" className="hover:text-foreground transition-colors">Voorraad</Link>
-                  <Link href="/saved" className="hover:text-foreground transition-colors">Opgeslagen</Link>
-                  <ThemeToggle />
-                </nav>
-                <MobileNav />
-              </div>
+              <NavSteps />
+              <MobileNav />
             </div>
-            {/* Step indicator second row on mobile */}
-            <div className="md:hidden flex justify-center border-t border-border py-2">
+            {/* Step indicator second row when nav takes up space on very small screens */}
+            <div className="hidden flex justify-center border-t border-border py-2">
               <NavSteps />
             </div>
           </div>

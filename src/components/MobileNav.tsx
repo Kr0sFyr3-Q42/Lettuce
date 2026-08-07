@@ -20,7 +20,7 @@ export default function MobileNav() {
   useEffect(() => { setOpen(false) }, [pathname])
 
   return (
-    <div className="relative md:hidden">
+    <div className="relative">
       {/* Hamburger button */}
       <button
         onClick={() => setOpen(o => !o)}
