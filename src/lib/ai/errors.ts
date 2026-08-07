@@ -1,5 +1,12 @@
 import Anthropic from '@anthropic-ai/sdk'
 
+// Strip markdown code fences that models sometimes wrap JSON in
+export function extractJson(raw: string): string {
+  const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/)
+  if (fenced) return fenced[1].trim()
+  return raw.trim()
+}
+
 export function toApiError(e: unknown): string {
   if (e instanceof Anthropic.APIError) {
     if (e.status === 429) return 'Rate limit bereikt — probeer over een moment opnieuw.'

@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { toApiError } from '@/lib/ai/errors'
+import { toApiError, extractJson } from '@/lib/ai/errors'
 import { db } from '@/lib/db'
 import { pantry_inventory, meal_history, tags } from '@/lib/db/schema'
 import { gte } from 'drizzle-orm'
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
 
     let output: PlannerOutput
     try {
-      output = JSON.parse(rawText)
+      output = JSON.parse(extractJson(rawText))
     } catch {
       const retry = await client.messages.create({
         model: MODEL,
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
           { role: 'user', content: 'Je vorige antwoord was geen valide JSON. Probeer opnieuw en retourneer uitsluitend het JSON object.' },
         ],
       })
-      output = JSON.parse(extractText(retry))
+      output = JSON.parse(extractJson(extractText(retry)))
     }
 
     // Write generated meals to history
