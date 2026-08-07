@@ -1,0 +1,7 @@
+'use client'
+
+import ErrorScreen from '@/components/ErrorScreen'
+
+export default function GlobalError({ error, reset }: { error: Error; reset: () => void }) {
+  return <ErrorScreen message={error.message} reset={reset} />
+}
