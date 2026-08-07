@@ -1,12 +1,29 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import MenuDisplay from '@/components/MenuDisplay'
 import ShoppingList from '@/components/ShoppingList'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import { rescaleShoppingList, avgPersons } from '@/lib/rescale'
 import type { PlannerOutput, ShoppingDepartment } from '@/lib/types'
+
+function formatAsText(output: PlannerOutput): string {
+  const menu = output.days.map(day => {
+    const meals = day.meals.map(meal => {
+      const steps = meal.recipe_steps.map((s, i) => `  ${i + 1}. ${s}`).join('\n')
+      return `${meal.name}\n${steps}`
+    }).join('\n\n')
+    return `── ${day.day} (${day.persons} personen) ──\n${meals}`
+  }).join('\n\n')
+
+  const shopping = output.shopping_list.map(dept => {
+    const items = dept.items.map(i => `  - ${i.name} ${i.quantity} ${i.unit}`).join('\n')
+    return `${dept.department}\n${items}`
+  }).join('\n\n')
+
+  return `🥬 Lettuce Weekmenu\n${'─'.repeat(40)}\n\n${menu}\n\n${'─'.repeat(40)}\nBOODSCHAPPENLIJST\n${'─'.repeat(40)}\n\n${shopping}`
+}
 
 type SavedMenuSummary = { id: number; name: string; created_at: string }
 
@@ -22,6 +39,18 @@ type DetailView = {
 export default function SavedPage() {
   const [list, setList]     = useState<SavedMenuSummary[]>([])
   const [detail, setDetail] = useState<DetailView | null>(null)
+  const [shareLabel, setShareLabel] = useState('Delen')
+
+  const handleShare = useCallback(async (output: PlannerOutput) => {
+    const text = formatAsText(output)
+    if (navigator.share) {
+      await navigator.share({ title: '🥬 Mijn weekmenu', text })
+    } else {
+      await navigator.clipboard.writeText(text)
+      setShareLabel('✓ Gekopieerd!')
+      setTimeout(() => setShareLabel('Delen'), 2000)
+    }
+  }, [])
 
   async function loadList() {
     const res = await fetch('/api/saved-menus')
@@ -80,6 +109,16 @@ export default function SavedPage() {
             ← Terug naar lijst
           </button>
           <h1 className="text-xl font-bold text-foreground flex-1">{detail.name}</h1>
+
+          {/* Share / Print */}
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="secondary" onClick={() => handleShare(detail.output)}>
+              {shareLabel}
+            </Button>
+            <Button size="sm" variant="secondary" onClick={() => window.print()}>
+              Afdrukken / PDF
+            </Button>
+          </div>
 
           {/* Rescale controls */}
           <div className="flex items-center gap-2 flex-wrap">
