@@ -7,7 +7,7 @@ import { buildPlannerPrompt } from '@/lib/ai/prompt-assembly'
 import type { PlannerOutput, TagAssignments, AuditorProposal } from '@/lib/types'
 
 const client = new Anthropic()
-const MODEL = 'claude-sonnet-4-6'
+const MODEL = 'claude-sonnet-4-5'
 
 function extractText(response: Anthropic.Message): string {
   const block = response.content[0]
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
     const first = await client.messages.create({
       model: MODEL,
-      max_tokens: 8192,
+      max_tokens: 4096,
       system: prompt.system,
       messages,
     })
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
     } catch {
       const retry = await client.messages.create({
         model: MODEL,
-        max_tokens: 8192,
+        max_tokens: 4096,
         system: prompt.system,
         messages: [
           ...messages,

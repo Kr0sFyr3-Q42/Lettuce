@@ -1,9 +1,18 @@
 import Anthropic from '@anthropic-ai/sdk'
 
-// Strip markdown code fences that models sometimes wrap JSON in
+// Extract JSON from a model response, handling:
+// 1. ```json ... ``` fenced blocks
+// 2. Plain JSON with preamble/postamble text
 export function extractJson(raw: string): string {
+  // Fenced code block
   const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/)
   if (fenced) return fenced[1].trim()
+
+  // Find the outermost { ... } in case of surrounding text
+  const start = raw.indexOf('{')
+  const end = raw.lastIndexOf('}')
+  if (start !== -1 && end > start) return raw.slice(start, end + 1)
+
   return raw.trim()
 }
 
