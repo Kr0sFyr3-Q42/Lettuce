@@ -35,16 +35,43 @@ export function formatDayConstraints(
   tagAssignments: TagAssignments,
   allTags: Tag[]
 ): string {
-  return DAYS.map(day => {
-    const ids = new Set([
+  const weekTags = allTags.filter(t => tagAssignments.allDays.includes(t.id))
+
+  const weekBlock = weekTags.length === 0
+    ? 'Geen weekbeperkingen.'
+    : weekTags.map(t => `- ${t.name}: ${t.prompt_snippet}`).join('\n')
+
+  const extraDayLines = DAYS
+    .filter(day => (tagAssignments.perDay[day] ?? []).length > 0)
+    .map(day => {
+      const dayTags = allTags.filter(t => (tagAssignments.perDay[day] ?? []).includes(t.id))
+      return `${day} extra: ${dayTags.map(t => `${t.name} — ${t.prompt_snippet}`).join(' + ')}`
+    })
+
+  const extraBlock = extraDayLines.length === 0
+    ? 'Geen extra dagtags.'
+    : extraDayLines.join('\n')
+
+  const effectiveLines = DAYS.map(day => {
+    const allForDay = new Set([
       ...tagAssignments.allDays,
       ...(tagAssignments.perDay[day] ?? []),
     ])
-    const applicable = allTags.filter(t => ids.has(t.id))
-    if (applicable.length === 0) return `${day}: geen beperkingen`
-    const snippets = applicable.map(t => `${t.name} (${t.prompt_snippet})`).join(', ')
-    return `${day}: ${snippets}`
+    const effective = allTags.filter(t => allForDay.has(t.id))
+    if (effective.length === 0) return `${day}: geen beperkingen`
+    return `${day}: ${effective.map(t => t.name).join(' + ')}`
   }).join('\n')
+
+  return [
+    'WEEKBEPERKINGEN (gelden voor ELKE dag, worden NIET opgeheven door dagtags):',
+    weekBlock,
+    '',
+    'EXTRA DAGTAGS (worden TOEGEVOEGD aan de weekbeperkingen, niet ter vervanging):',
+    extraBlock,
+    '',
+    'EFFECTIEVE BEPERKINGEN PER DAG (dit is leidend voor je planning):',
+    effectiveLines,
+  ].join('\n')
 }
 
 // ---------------------------------------------------------------------------
@@ -125,8 +152,7 @@ VASTE REGELS:
 - Vermijd maaltijden die recent gegeten zijn: ${formatMealHistory(mealHistory)}
 - Plan één maaltijd per dag (avondeten).
 
-DIEETBEPERKINGEN PER DAG:
-De onderstaande beperkingen gelden UITSLUITEND voor de genoemde dag. Ze mogen GEEN invloed hebben op de stijl, het type of de complexiteit van maaltijden op andere dagen. Een "culinair" tag op maandag betekent niet dat dinsdag ook culinair moet zijn.
+DIEETBEPERKINGEN:
 ${formatDayConstraints(tagAssignments, allTags)}`
 
   const personsBlock = DAYS.map(d =>

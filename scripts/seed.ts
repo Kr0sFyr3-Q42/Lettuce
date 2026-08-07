@@ -7,6 +7,7 @@ const SYSTEM_TAGS = [
   { name: 'veganistisch', prompt_snippet: 'Geen dierlijke producten, inclusief zuivel en eieren.' },
   { name: 'glutenvrij',   prompt_snippet: 'Geen tarwe, rogge, gerst of spelt.' },
   { name: 'lactosevrij',  prompt_snippet: 'Geen zuivelproducten. Gebruik plantaardige alternatieven.' },
+  { name: 'simpel',       prompt_snippet: 'Maak een snelle, eenvoudige doordeweekse maaltijd. Maximaal 30 minuten bereidingstijd.' },
 ]
 
 for (const tag of SYSTEM_TAGS) {
