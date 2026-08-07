@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 import NavSteps from '@/components/NavSteps'
+import MobileNav from '@/components/MobileNav'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/manage/pantry" className="hover:text-foreground transition-colors">Voorraad</Link>
                 <Link href="/saved" className="hover:text-foreground transition-colors">Opgeslagen</Link>
               </nav>
+              <MobileNav />
             </div>
             {/* Step indicator on mobile — below the logo row */}
             <div className="md:hidden flex justify-center border-t border-border py-2">
