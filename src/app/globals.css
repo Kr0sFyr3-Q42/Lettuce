@@ -77,6 +77,12 @@ input[type='range']::-moz-range-thumb {
   border: 2px solid white;
 }
 
+@media print {
+  header, nav { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .print\:hidden { display: none !important; }
+}
+
 /* Date picker icon follows the active colour scheme */
 input[type='date'] {
   color-scheme: light;
