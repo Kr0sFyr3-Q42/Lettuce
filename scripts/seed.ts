@@ -8,6 +8,7 @@ const SYSTEM_TAGS = [
   { name: 'Glutenvrij',   prompt_snippet: 'Geen tarwe, rogge, gerst of spelt.' },
   { name: 'Lactosevrij',  prompt_snippet: 'Geen zuivelproducten. Gebruik plantaardige alternatieven.' },
   { name: 'Simpel',       prompt_snippet: 'Maak een snelle, eenvoudige doordeweekse maaltijd. Maximaal 30 minuten bereidingstijd.' },
+  { name: 'Culinair',    prompt_snippet: 'Maak een sophistisch, restaurant-waardig gerecht. Gebruik bijzondere technieken, hoogwaardige ingrediënten en complexe smaken. Denk aan gerechten zoals confit, osso buco, beef wellington of een klassieke bisque.' },
 ]
 
 for (const tag of SYSTEM_TAGS) {
