@@ -18,8 +18,10 @@ export default function Home() {
   const anyPersons    = Object.values(personsPerDay).some(n => n > 0)
   const totalPersons  = Object.values(personsPerDay).reduce((a, b) => a + b, 0)
   const avgPersons    = (totalPersons / 7).toFixed(1)
-  const activeTagCount = tagAssignments.allDays.length +
-    Object.values(tagAssignments.perDay).flat().filter(Boolean).length
+  const activeTagCount = new Set([
+    ...tagAssignments.allDays,
+    ...Object.values(tagAssignments.perDay).flat(),
+  ]).size
 
   function handleNext() {
     const session: LettuceSession = { personsPerDay, tagAssignments }

@@ -33,12 +33,12 @@ export default function TagSelector({ value, onChange }: Props) {
   const isDayChecked = (id: number, day: string) => value.perDay[day]?.includes(id) ?? false
 
   function toggleAllDays(id: number) {
+    const perDay = { ...value.perDay }
+    DAY_LABELS.forEach(d => { if (perDay[d]) perDay[d] = perDay[d]!.filter(x => x !== id) })
     if (isAllDays(id)) {
-      const perDay = { ...value.perDay }
-      DAY_LABELS.forEach(d => { if (perDay[d]) perDay[d] = perDay[d]!.filter(x => x !== id) })
       onChange({ allDays: value.allDays.filter(x => x !== id), perDay })
     } else {
-      onChange({ allDays: [...value.allDays, id], perDay: value.perDay })
+      onChange({ allDays: [...value.allDays, id], perDay })
     }
   }
 
