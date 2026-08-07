@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import MenuDisplay from '@/components/MenuDisplay'
 import ShoppingList from '@/components/ShoppingList'
@@ -33,6 +33,7 @@ function formatAsText(output: PlannerOutput): string {
 
 export default function ResultPage() {
   const router = useRouter()
+  const hasFetched = useRef(false)
   const [state, setState] = useState<State>({ status: 'loading' })
   const [saveState, setSaveState] = useState<SaveState>('idle')
   const [saveName, setSaveName] = useState('')
@@ -40,6 +41,9 @@ export default function ResultPage() {
   const [shareLabel, setShareLabel] = useState('Delen')
 
   useEffect(() => {
+    if (hasFetched.current) return
+    hasFetched.current = true
+
     async function run() {
       const raw = sessionStorage.getItem('lettuce_session')
       if (!raw) { router.replace('/'); return }

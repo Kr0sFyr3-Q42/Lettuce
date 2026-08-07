@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AuditorReview from '@/components/AuditorReview'
 import type { AuditorOutput, AuditorProposal, LettuceSession } from '@/lib/types'
@@ -12,9 +12,13 @@ type State =
 
 export default function PlanningPage() {
   const router = useRouter()
+  const hasFetched = useRef(false)
   const [state, setState] = useState<State>({ status: 'loading' })
 
   useEffect(() => {
+    if (hasFetched.current) return
+    hasFetched.current = true
+
     async function run() {
       const raw = sessionStorage.getItem('lettuce_session')
       if (!raw) { router.replace('/'); return }
