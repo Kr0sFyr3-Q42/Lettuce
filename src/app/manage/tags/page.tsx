@@ -85,7 +85,7 @@ export default function TagsPage() {
       <div>
         <h1 className="text-xl font-semibold text-foreground">Tags</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Tags zijn instructies die meegegeven worden aan de AI bij het genereren van je weekmenu. Elke tag heeft een prompt snippet — een korte zin die vertelt wat de AI wel of niet mag doen. Stel ook in welke tags standaard actief zijn als je begint met plannen.
+          Tags zijn instructies die meegegeven worden aan de AI bij het genereren van je weekmenu. Elke tag heeft een prompt snippet, een korte zin die vertelt wat de AI wel of niet mag doen. Je kunt hier ook instellen welke tags standaard actief zijn als je begint met plannen.
         </p>
       </div>
 
