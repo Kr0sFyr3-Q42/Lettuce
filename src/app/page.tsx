@@ -37,6 +37,7 @@ export default function Home() {
   }, [])
 
   const anyPersons    = Object.values(personsPerDay).some(n => n > 0)
+  const daysWithPersons = Object.values(personsPerDay).filter(n => n > 0).length
   const totalPersons  = Object.values(personsPerDay).reduce((a, b) => a + b, 0)
   const activeTagCount = new Set([
     ...tagAssignments.allDays,
@@ -86,8 +87,8 @@ export default function Home() {
               </Card>
               <Card className="p-4">
                 <p className="text-xs font-medium text-muted-foreground">Maaltijden te plannen</p>
-                <p className="text-2xl font-bold mt-0.5">7</p>
-                <p className="text-xs text-muted-foreground mt-1">ma t/m zo</p>
+                <p className="text-2xl font-bold mt-0.5">{daysWithPersons}</p>
+                <p className="text-xs text-muted-foreground mt-1">{daysWithPersons === 7 ? 'ma t/m zo' : 'dagen'}</p>
               </Card>
             </div>
 
