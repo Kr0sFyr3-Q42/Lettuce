@@ -9,7 +9,7 @@ export default function ErrorScreen({ message, reset }: Props) {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-5 p-8 text-center">
       <p className="text-5xl">🥬💀</p>
       <p className="text-2xl font-bold text-foreground tracking-tight">
-        Wow.. Lettuce not do that.. Something went wrong.
+       Lettuce not do that.. <br></br>Something went wrong.
       </p>
       <code className="text-sm text-muted-foreground bg-secondary border border-border px-4 py-2 rounded-lg max-w-lg break-all">
         {message}
