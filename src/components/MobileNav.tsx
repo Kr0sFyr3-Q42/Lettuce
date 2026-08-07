@@ -52,10 +52,7 @@ export default function MobileNav() {
               {label}
             </Link>
           ))}
-          <div className="border-t border-border px-4 py-3 flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Weergave</span>
-            <ThemeToggle />
-          </div>
+          <ThemeToggle className="w-full border-t border-border px-4 py-3 flex items-center justify-between text-sm text-foreground hover:bg-secondary transition-colors" />
         </div>
       )}
     </div>
