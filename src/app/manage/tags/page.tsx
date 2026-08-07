@@ -10,10 +10,13 @@ const DAY_LABELS = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Z
 const DAY_SHORT  = ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo']
 
 export default function TagsPage() {
-  const [tagList, setTagList] = useState<Tag[]>([])
-  const [name, setName]       = useState('')
-  const [snippet, setSnippet] = useState('')
-  const [error, setError]     = useState('')
+  const [tagList, setTagList]   = useState<Tag[]>([])
+  const [name, setName]         = useState('')
+  const [snippet, setSnippet]   = useState('')
+  const [error, setError]       = useState('')
+  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editName, setEditName]   = useState('')
+  const [editSnippet, setEditSnippet] = useState('')
 
   async function load() {
     const res = await fetch('/api/tags')
@@ -29,6 +32,17 @@ export default function TagsPage() {
       body: JSON.stringify(patch),
     })
     load()
+  }
+
+  function startEdit(tag: Tag) {
+    setEditingId(tag.id)
+    setEditName(tag.name)
+    setEditSnippet(tag.prompt_snippet)
+  }
+
+  async function saveEdit(id: number) {
+    await update(id, { name: editName.trim(), prompt_snippet: editSnippet.trim() })
+    setEditingId(null)
   }
 
   function getDefaultDays(tag: Tag): string[] {
@@ -71,49 +85,83 @@ export default function TagsPage() {
       <Card className="overflow-hidden divide-y divide-border">
         {tagList.map(tag => {
           const defaultDays = getDefaultDays(tag)
+          const isEditing = editingId === tag.id
           return (
             <div key={tag.id} className="px-4 py-4 space-y-3">
-              {/* Top row: name + delete */}
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="font-medium text-sm text-foreground">{tag.name}</p>
-                  <p className="text-xs text-muted-foreground break-words">{tag.prompt_snippet}</p>
-                </div>
-                <button
-                  onClick={() => deleteTag(tag.id)}
-                  className="text-xs text-red-500 hover:text-red-400 transition-colors flex-shrink-0"
-                >
-                  Verwijder
-                </button>
-              </div>
-
-              {/* Default controls */}
-              <div className="space-y-2 pl-0">
-                <Toggle
-                  checked={tag.default_all_days}
-                  onChange={() => update(tag.id, { default_all_days: !tag.default_all_days })}
-                  label="Standaard hele week"
-                  id={`all-${tag.id}`}
-                />
-
-                {!tag.default_all_days && (
-                  <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground">Standaard actief op:</p>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {DAY_LABELS.map((day, i) => (
-                        <label key={day} className="flex flex-col items-center gap-0.5 cursor-pointer">
-                          <span className="text-[10px] text-muted-foreground">{DAY_SHORT[i]}</span>
-                          <Checkbox
-                            checked={defaultDays.includes(day)}
-                            onChange={() => toggleDefaultDay(tag, day)}
-                            id={`def-${tag.id}-${day}`}
-                          />
-                        </label>
-                      ))}
+              {/* Top row: name + actions */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  {isEditing ? (
+                    <div className="space-y-2">
+                      <input
+                        className="w-full border border-border rounded-lg px-3 py-1.5 text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                        value={editName}
+                        onChange={e => setEditName(e.target.value)}
+                      />
+                      <textarea
+                        className="w-full border border-border rounded-lg px-3 py-1.5 text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none h-20"
+                        value={editSnippet}
+                        onChange={e => setEditSnippet(e.target.value)}
+                      />
+                      <div className="flex gap-2">
+                        <Button size="sm" onClick={() => saveEdit(tag.id)}>Opslaan</Button>
+                        <Button size="sm" variant="ghost" onClick={() => setEditingId(null)}>Annuleer</Button>
+                      </div>
                     </div>
+                  ) : (
+                    <>
+                      <p className="font-medium text-sm text-foreground">{tag.name}</p>
+                      <p className="text-xs text-muted-foreground break-words">{tag.prompt_snippet}</p>
+                    </>
+                  )}
+                </div>
+
+                {!isEditing && (
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <button
+                      onClick={() => startEdit(tag)}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      Bewerk
+                    </button>
+                    <button
+                      onClick={() => deleteTag(tag.id)}
+                      className="text-xs text-red-500 hover:text-red-400 transition-colors"
+                    >
+                      Verwijder
+                    </button>
                   </div>
                 )}
               </div>
+
+              {/* Default controls — hidden while editing */}
+              {!isEditing && (
+                <div className="space-y-2">
+                  <Toggle
+                    checked={tag.default_all_days}
+                    onChange={() => update(tag.id, { default_all_days: !tag.default_all_days })}
+                    label="Standaard hele week"
+                    id={`all-${tag.id}`}
+                  />
+                  {!tag.default_all_days && (
+                    <div className="space-y-1">
+                      <p className="text-xs text-muted-foreground">Standaard actief op:</p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {DAY_LABELS.map((day, i) => (
+                          <label key={day} className="flex flex-col items-center gap-0.5 cursor-pointer">
+                            <span className="text-[10px] text-muted-foreground">{DAY_SHORT[i]}</span>
+                            <Checkbox
+                              checked={defaultDays.includes(day)}
+                              onChange={() => toggleDefaultDay(tag, day)}
+                              id={`def-${tag.id}-${day}`}
+                            />
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )
         })}
