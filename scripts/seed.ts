@@ -3,21 +3,28 @@ import { tags, pantry_inventory } from '../src/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 
 const SYSTEM_TAGS = [
-  { name: 'vegetarisch',  prompt_snippet: 'Geen vlees of vis.' },
-  { name: 'veganistisch', prompt_snippet: 'Geen dierlijke producten, inclusief zuivel en eieren.' },
-  { name: 'glutenvrij',   prompt_snippet: 'Geen tarwe, rogge, gerst of spelt.' },
-  { name: 'lactosevrij',  prompt_snippet: 'Geen zuivelproducten. Gebruik plantaardige alternatieven.' },
-  { name: 'simpel',       prompt_snippet: 'Maak een snelle, eenvoudige doordeweekse maaltijd. Maximaal 30 minuten bereidingstijd.' },
+  { name: 'Vegetarisch',  prompt_snippet: 'Geen vlees of vis.' },
+  { name: 'Veganistisch', prompt_snippet: 'Geen dierlijke producten, inclusief zuivel en eieren.' },
+  { name: 'Glutenvrij',   prompt_snippet: 'Geen tarwe, rogge, gerst of spelt.' },
+  { name: 'Lactosevrij',  prompt_snippet: 'Geen zuivelproducten. Gebruik plantaardige alternatieven.' },
+  { name: 'Simpel',       prompt_snippet: 'Maak een snelle, eenvoudige doordeweekse maaltijd. Maximaal 30 minuten bereidingstijd.' },
 ]
 
 for (const tag of SYSTEM_TAGS) {
-  const existing = db.select().from(tags).where(eq(tags.name, tag.name)).get()
+  // Also match the old lowercase variant for renaming
+  const existing = db.select().from(tags)
+    .where(eq(tags.name, tag.name))
+    .get()
+    ?? db.select().from(tags)
+    .where(eq(tags.name, tag.name.toLowerCase()))
+    .get()
+
   if (!existing) {
     db.insert(tags).values({ ...tag, is_system: false, is_active: true }).run()
     console.log(`Inserted tag: ${tag.name}`)
   } else {
-    db.update(tags).set({ prompt_snippet: tag.prompt_snippet, is_system: false }).where(eq(tags.name, tag.name)).run()
-    console.log(`Updated tag: ${tag.name}`)
+    db.update(tags).set({ name: tag.name, prompt_snippet: tag.prompt_snippet, is_system: false }).where(eq(tags.id, existing.id)).run()
+    console.log(`Updated tag: ${existing.name} → ${tag.name}`)
   }
 }
 
