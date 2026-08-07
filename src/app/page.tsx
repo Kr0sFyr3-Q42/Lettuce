@@ -38,7 +38,6 @@ export default function Home() {
 
   const anyPersons    = Object.values(personsPerDay).some(n => n > 0)
   const totalPersons  = Object.values(personsPerDay).reduce((a, b) => a + b, 0)
-  const avgPersons    = (totalPersons / 7).toFixed(1)
   const activeTagCount = new Set([
     ...tagAssignments.allDays,
     ...Object.values(tagAssignments.perDay).flat(),
@@ -63,8 +62,8 @@ export default function Home() {
             </p>
             <PeoplePicker value={personsPerDay} onChange={setPersonsPerDay} />
             <Card className="mt-4 p-4">
-              <p className="text-xs font-medium text-muted-foreground">Gemiddeld per avond</p>
-              <p className="text-2xl font-bold mt-0.5">{avgPersons} <span className="text-base font-normal text-muted-foreground">personen</span></p>
+              <p className="text-xs font-medium text-muted-foreground">Totaal aantal porties</p>
+              <p className="text-2xl font-bold mt-0.5">{totalPersons} <span className="text-base font-normal text-muted-foreground">porties</span></p>
             </Card>
           </div>
 
