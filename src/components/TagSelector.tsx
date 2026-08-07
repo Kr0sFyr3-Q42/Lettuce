@@ -148,14 +148,14 @@ export default function TagSelector({ value, onChange }: Props) {
             {error && <p className="text-xs text-red-500">{error}</p>}
             <input
               className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
-              placeholder="Naam (bijv. Halal)"
+              placeholder="Naam (bijv. Nootvrij)"
               value={newName}
               onChange={e => setNewName(e.target.value)}
               required
             />
             <textarea
               className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm h-16 resize-none"
-              placeholder="Prompt instructie (bijv. Geen varkensvlees.)"
+              placeholder="Prompt instructie (bijv. Geen noten of notenproducten.)"
               value={newSnippet}
               onChange={e => setNewSnippet(e.target.value)}
               required
