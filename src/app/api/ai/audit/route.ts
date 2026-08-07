@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { toApiError } from '@/lib/ai/errors'
 import { db } from '@/lib/db'
 import { freezer_inventory, meal_history, tags } from '@/lib/db/schema'
 import { gte } from 'drizzle-orm'
@@ -77,9 +78,6 @@ export async function POST(req: Request) {
 
     return Response.json(output)
   } catch (e: unknown) {
-    return Response.json(
-      { error: e instanceof Error ? e.message : 'Onbekende fout' },
-      { status: 500 }
-    )
+    return Response.json({ error: toApiError(e) }, { status: 500 })
   }
 }
