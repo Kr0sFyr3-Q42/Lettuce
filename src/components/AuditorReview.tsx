@@ -32,7 +32,7 @@ export default function AuditorReview({ proposals, onConfirm }: Props) {
     return (
       <div className="space-y-6">
         <Card className="p-6 text-center space-y-2">
-          <p className="text-2xl">🧊</p>
+          <p className="text-2xl">🍲</p>
           <p className="font-medium text-foreground">Geen kliekjes gevonden</p>
           <p className="text-sm text-muted-foreground">
             Voeg kliekjes toe via het Kliekjes-menu om ze in te plannen.
