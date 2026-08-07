@@ -135,7 +135,7 @@ export default function ResultPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <MenuDisplay days={output.days} />
         <div className="lg:sticky lg:top-6 lg:self-start">
-          <ShoppingList departments={output.shopping_list ?? []} />
+          <ShoppingList departments={output.shopping_list} />
         </div>
       </div>
     </div>

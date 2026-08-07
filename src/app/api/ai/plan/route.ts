@@ -109,6 +109,10 @@ export async function POST(req: Request) {
 
     const output = toolBlock.input as PlannerOutput
 
+    if (!Array.isArray(output.days) || !Array.isArray(output.shopping_list)) {
+      throw new Error(`Claude retourneerde een onvolledig weekmenu (ontbrekende velden: ${!Array.isArray(output.days) ? 'days ' : ''}${!Array.isArray(output.shopping_list) ? 'shopping_list' : ''}).`)
+    }
+
     // Write generated meals to history
     const today = new Date().toISOString().split('T')[0]
     for (const day of output.days) {

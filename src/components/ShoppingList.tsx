@@ -6,9 +6,9 @@ import Button from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Toggle'
 import type { ShoppingDepartment } from '@/lib/types'
 
-type Props = { departments?: ShoppingDepartment[] }
+type Props = { departments: ShoppingDepartment[] }
 
-export default function ShoppingList({ departments = [] }: Props) {
+export default function ShoppingList({ departments }: Props) {
   const [checked, setChecked] = useState<Set<string>>(new Set())
   const [copied, setCopied] = useState(false)
 
