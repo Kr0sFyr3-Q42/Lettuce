@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import ThemeToggle from './ThemeToggle'
 
 const LINKS = [
+  { href: '/',               label: 'Plannen' },
   { href: '/manage/tags',    label: 'Tags' },
   { href: '/manage/freezer', label: 'Kliekjes' },
   { href: '/manage/pantry',  label: 'Voorraad' },
