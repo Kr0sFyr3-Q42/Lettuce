@@ -53,11 +53,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-5xl mx-auto px-6 py-10">
+        <h1 className="text-4xl font-bold tracking-tight mb-10 text-center">🥬 Lettuce plan your meals!</h1>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
           {/* LEFT: People picker */}
           <div>
-            <h1 className="text-2xl font-bold tracking-tight mb-1">Hoeveel mensen eten er mee?</h1>
+            <h2 className="text-2xl font-bold tracking-tight mb-1">Hoeveel mensen eten er mee?</h2>
             <p className="text-sm text-muted-foreground mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
               Selecteer per dag het aantal personen.
             </p>
@@ -70,7 +72,7 @@ export default function Home() {
 
           {/* RIGHT: Tags + CTA */}
           <div className="flex flex-col">
-            <h2 className="text-2xl font-bold tracking-tight mb-1">Dieetwensen & voorkeuren</h2>
+            <h2 className="text-2xl font-bold tracking-tight mb-1">Dieetwensen &amp; voorkeuren</h2>
             <p className="text-sm text-muted-foreground mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
               Schakel tags in voor de hele week of per dag.
             </p>
