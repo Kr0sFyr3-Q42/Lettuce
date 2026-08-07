@@ -26,6 +26,11 @@ export async function POST(req: Request) {
 
     const freezerItems = db.select().from(freezer_inventory).all()
 
+    // Skip AI call entirely when freezer is empty — nothing to audit
+    if (freezerItems.length === 0) {
+      return Response.json({ proposals: [] } satisfies AuditorOutput)
+    }
+
     const cutoff = new Date()
     cutoff.setDate(cutoff.getDate() - 14)
     const cutoffStr = cutoff.toISOString().split('T')[0]
