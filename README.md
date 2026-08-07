@@ -1,5 +1,5 @@
 # Lettuce 🥬
-> Lettuce prep your meals.
+> Lettuce plan your meals.
 
 A self-hosted AI meal planner for your home network. Tell it how many people are eating each day, pick your dietary tags, and let Claude generate a full weekly menu with a consolidated shopping list — zero-waste logic included.
 
