@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Button from '@/components/ui/Button'
+import Card from '@/components/ui/Card'
 import type { FreezerItem } from '@/lib/types'
 
 export default function FreezerPage() {
@@ -44,44 +46,43 @@ export default function FreezerPage() {
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-4 space-y-8">
-      <h1 className="text-xl font-semibold">Vriezer</h1>
+      <h1 className="text-xl font-semibold text-foreground">Vriezer</h1>
 
-      <ul className="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+      <Card className="overflow-hidden divide-y divide-border">
         {items.length === 0 && (
-          <li className="px-4 py-6 text-sm text-gray-400 text-center bg-white">Vriezer is leeg.</li>
+          <p className="px-4 py-6 text-sm text-muted-foreground text-center">Vriezer is leeg.</p>
         )}
         {items.map(item => (
-          <li key={item.id} className="flex items-center justify-between px-4 py-3 bg-white">
+          <div key={item.id} className="flex items-center justify-between px-4 py-3">
             <div>
-              <p className="font-medium text-sm">{item.item_name}</p>
-              <p className="text-xs text-gray-400">Toegevoegd: {item.date_added}</p>
+              <p className="font-medium text-sm text-foreground">{item.item_name}</p>
+              <p className="text-xs text-muted-foreground">Toegevoegd: {item.date_added}</p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center rounded-lg border border-border overflow-hidden">
                 <button
                   onClick={() => updatePortions(item, Math.max(1, item.portions - 1))}
-                  className="w-6 h-6 rounded border border-gray-300 text-sm leading-none hover:bg-gray-100"
+                  className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:bg-secondary transition-colors text-base leading-none"
                 >−</button>
-                <span className="w-8 text-center text-sm font-medium">{item.portions}</span>
+                <span className="w-8 text-center text-sm font-semibold text-foreground border-x border-border">{item.portions}</span>
                 <button
                   onClick={() => updatePortions(item, item.portions + 1)}
-                  className="w-6 h-6 rounded border border-gray-300 text-sm leading-none hover:bg-gray-100"
+                  className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:bg-secondary transition-colors text-base leading-none"
                 >+</button>
               </div>
-              <span className="text-xs text-gray-400">port.</span>
-              <button
-                onClick={() => deleteItem(item.id)}
-                className="text-xs text-red-500 hover:text-red-700"
-              >Verwijder</button>
+              <span className="text-xs text-muted-foreground">port.</span>
+              <button onClick={() => deleteItem(item.id)} className="text-xs text-red-500 hover:text-red-400 transition-colors">
+                Verwijder
+              </button>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </Card>
 
-      <form onSubmit={addItem} className="space-y-3 border border-gray-200 rounded-lg p-4 bg-gray-50">
-        <h2 className="font-medium text-sm">Toevoegen</h2>
+      <Card className="p-4 space-y-3 bg-secondary">
+        <h2 className="font-medium text-sm text-foreground">Toevoegen</h2>
         <input
-          className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+          className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           placeholder="Naam (bijv. Stoofvlees)"
           value={name}
           onChange={e => setName(e.target.value)}
@@ -89,29 +90,27 @@ export default function FreezerPage() {
         />
         <div className="flex gap-3">
           <div className="flex-1">
-            <label className="text-xs text-gray-500 mb-1 block">Porties</label>
+            <label className="text-xs text-muted-foreground mb-1 block">Porties</label>
             <input
               type="number"
               min={1}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+              className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               value={portions}
               onChange={e => setPortions(Number(e.target.value))}
             />
           </div>
           <div className="flex-1">
-            <label className="text-xs text-gray-500 mb-1 block">Datum ingevroren</label>
+            <label className="text-xs text-muted-foreground mb-1 block">Datum ingevroren</label>
             <input
               type="date"
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+              className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               value={date}
               onChange={e => setDate(e.target.value)}
             />
           </div>
         </div>
-        <button type="submit" className="bg-gray-900 text-white text-sm px-4 py-2 rounded hover:bg-gray-700">
-          Toevoegen
-        </button>
-      </form>
+        <Button type="submit" size="sm" onClick={addItem as never}>Toevoegen</Button>
+      </Card>
     </div>
   )
 }

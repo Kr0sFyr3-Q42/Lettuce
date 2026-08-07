@@ -1,1 +1,87 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Inter:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'DM Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --color-background: #FAFAF8;
+  --color-foreground: #111110;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #111110;
+  --color-primary: #2D7A3A;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #F2F2EE;
+  --color-secondary-foreground: #111110;
+  --color-muted: #F2F2EE;
+  --color-muted-foreground: #8A8A82;
+  --color-accent: #6FCF8C;
+  --color-accent-foreground: #111110;
+  --color-border: #E4E4DE;
+  --color-ring: #2D7A3A;
+}
+
+:root {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.dark {
+  --color-background: #141412;
+  --color-foreground: #F0F0EC;
+  --color-card: #1E1E1A;
+  --color-card-foreground: #F0F0EC;
+  --color-primary: #6FCF8C;
+  --color-primary-foreground: #111110;
+  --color-secondary: #2A2A26;
+  --color-secondary-foreground: #F0F0EC;
+  --color-muted: #2A2A26;
+  --color-muted-foreground: #8A8A82;
+  --color-accent: #6FCF8C;
+  --color-accent-foreground: #111110;
+  --color-border: #333330;
+  --color-ring: #6FCF8C;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+/* Date picker icon follows the active colour scheme */
+input[type='date'] {
+  color-scheme: light;
+}
+
+.dark input[type='date'] {
+  color-scheme: dark;
+}
