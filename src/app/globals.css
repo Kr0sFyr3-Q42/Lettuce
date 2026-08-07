@@ -76,3 +76,12 @@ input[type='range']::-moz-range-thumb {
   cursor: pointer;
   border: 2px solid white;
 }
+
+/* Date picker icon follows the active colour scheme */
+input[type='date'] {
+  color-scheme: light;
+}
+
+.dark input[type='date'] {
+  color-scheme: dark;
+}
