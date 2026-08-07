@@ -77,7 +77,7 @@ export default function TagsPage() {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="font-medium text-sm text-foreground">{tag.name}</p>
-                  <p className="text-xs text-muted-foreground truncate max-w-xs">{tag.prompt_snippet}</p>
+                  <p className="text-xs text-muted-foreground break-words">{tag.prompt_snippet}</p>
                 </div>
                 <button
                   onClick={() => deleteTag(tag.id)}
