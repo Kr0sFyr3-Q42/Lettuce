@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Button from '@/components/ui/Button'
+import Card from '@/components/ui/Card'
 import type { PantryItem } from '@/lib/types'
 
 export default function PantryPage() {
@@ -34,50 +36,47 @@ export default function PantryPage() {
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-4 space-y-8">
-      <h1 className="text-xl font-semibold">Basisvoorraad</h1>
-      <p className="text-sm text-gray-500">
+      <h1 className="text-xl font-semibold text-foreground">Basisvoorraad</h1>
+      <p className="text-sm text-muted-foreground">
         Items hier worden nooit op de boodschappenlijst gezet — de AI gaat ervan uit dat je ze altijd in huis hebt.
       </p>
 
-      <ul className="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+      <Card className="overflow-hidden divide-y divide-border">
         {items.length === 0 && (
-          <li className="px-4 py-6 text-sm text-gray-400 text-center bg-white">Nog geen items.</li>
+          <p className="px-4 py-6 text-sm text-muted-foreground text-center">Nog geen items.</p>
         )}
         {items.map(item => (
-          <li key={item.id} className="flex items-center justify-between px-4 py-3 bg-white">
+          <div key={item.id} className="flex items-center justify-between px-4 py-3">
             <div>
-              <p className="font-medium text-sm">{item.item_name}</p>
-              {item.unit && <p className="text-xs text-gray-400">{item.unit}</p>}
+              <p className="font-medium text-sm text-foreground">{item.item_name}</p>
+              {item.unit && <p className="text-xs text-muted-foreground">{item.unit}</p>}
             </div>
-            <button
-              onClick={() => deleteItem(item.id)}
-              className="text-xs text-red-500 hover:text-red-700"
-            >Verwijder</button>
-          </li>
+            <button onClick={() => deleteItem(item.id)} className="text-xs text-red-500 hover:text-red-400 transition-colors">
+              Verwijder
+            </button>
+          </div>
         ))}
-      </ul>
+      </Card>
 
-      <form onSubmit={addItem} className="space-y-3 border border-gray-200 rounded-lg p-4 bg-gray-50">
-        <h2 className="font-medium text-sm">Toevoegen</h2>
+      <Card className="p-4 space-y-3 bg-secondary">
+        <h2 className="font-medium text-sm text-foreground">Toevoegen</h2>
         <div className="flex gap-3">
           <input
-            className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
+            className="flex-1 border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             placeholder="Naam (bijv. Olijfolie)"
             value={name}
             onChange={e => setName(e.target.value)}
             required
           />
           <input
-            className="w-28 border border-gray-300 rounded px-3 py-2 text-sm"
+            className="w-28 border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             placeholder="Eenheid"
             value={unit}
             onChange={e => setUnit(e.target.value)}
           />
         </div>
-        <button type="submit" className="bg-gray-900 text-white text-sm px-4 py-2 rounded hover:bg-gray-700">
-          Toevoegen
-        </button>
-      </form>
+        <Button type="submit" size="sm" onClick={addItem as never}>Toevoegen</Button>
+      </Card>
     </div>
   )
 }

@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Toggle from '@/components/ui/Toggle'
+import Button from '@/components/ui/Button'
+import Card from '@/components/ui/Card'
 import type { Tag } from '@/lib/types'
 
 export default function TagsPage() {
@@ -39,8 +42,7 @@ export default function TagsPage() {
       body: JSON.stringify({ name, prompt_snippet: snippet }),
     })
     if (!res.ok) {
-      const data = await res.json()
-      setError(data.error)
+      setError((await res.json()).error)
       return
     }
     setName('')
@@ -50,65 +52,55 @@ export default function TagsPage() {
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-4 space-y-8">
-      <h1 className="text-xl font-semibold">Tags</h1>
+      <h1 className="text-xl font-semibold text-foreground">Tags</h1>
 
-      <ul className="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+      <Card className="overflow-hidden divide-y divide-border">
         {tagList.map(tag => (
-          <li key={tag.id} className="flex items-center justify-between px-4 py-3 bg-white">
+          <div key={tag.id} className="flex items-center justify-between px-4 py-3">
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => toggleActive(tag)}
-                className={`w-10 h-5 rounded-full transition-colors ${tag.is_active ? 'bg-green-500' : 'bg-gray-300'}`}
-                title={tag.is_active ? 'Actief' : 'Inactief'}
-              >
-                <span className={`block w-4 h-4 bg-white rounded-full mx-0.5 transition-transform ${tag.is_active ? 'translate-x-5' : ''}`} />
-              </button>
+              <Toggle
+                checked={tag.is_active}
+                onChange={() => toggleActive(tag)}
+                id={`active-${tag.id}`}
+              />
               <div>
-                <p className="font-medium text-sm">{tag.name}</p>
-                <p className="text-xs text-gray-400 truncate max-w-xs">{tag.prompt_snippet}</p>
+                <p className="font-medium text-sm text-foreground">{tag.name}</p>
+                <p className="text-xs text-muted-foreground truncate max-w-xs">{tag.prompt_snippet}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               {tag.is_system && (
-                <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">systeem</span>
+                <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded">systeem</span>
               )}
               {!tag.is_system && (
-                <button
-                  onClick={() => deleteTag(tag.id)}
-                  className="text-xs text-red-500 hover:text-red-700"
-                >
+                <button onClick={() => deleteTag(tag.id)} className="text-xs text-red-500 hover:text-red-400 transition-colors">
                   Verwijder
                 </button>
               )}
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </Card>
 
-      <form onSubmit={createTag} className="space-y-3 border border-gray-200 rounded-lg p-4 bg-gray-50">
-        <h2 className="font-medium text-sm">Nieuwe tag</h2>
+      <Card className="p-4 space-y-3 bg-secondary">
+        <h2 className="font-medium text-sm text-foreground">Nieuwe tag</h2>
         {error && <p className="text-sm text-red-500">{error}</p>}
         <input
-          className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+          className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           placeholder="Naam"
           value={name}
           onChange={e => setName(e.target.value)}
           required
         />
         <textarea
-          className="w-full border border-gray-300 rounded px-3 py-2 text-sm h-20 resize-none"
+          className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring h-20 resize-none"
           placeholder="Prompt instructie (bijv. Gebruik niet de volgende ingrediënten: ...)"
           value={snippet}
           onChange={e => setSnippet(e.target.value)}
           required
         />
-        <button
-          type="submit"
-          className="bg-gray-900 text-white text-sm px-4 py-2 rounded hover:bg-gray-700"
-        >
-          Toevoegen
-        </button>
-      </form>
+        <Button type="submit" size="sm" onClick={createTag as never}>Toevoegen</Button>
+      </Card>
     </div>
   )
 }
