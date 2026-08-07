@@ -54,9 +54,15 @@ export type PlannerOutput = {
   shopping_list: ShoppingDepartment[]
 }
 
+// Tag assignment: per day and/or the whole week
+export type TagAssignments = {
+  allDays: number[]                      // tag IDs applied to every day
+  perDay: Partial<Record<string, number[]>>  // day name → additional tag IDs
+}
+
 // Session storage shape
 export type LettuceSession = {
   personsPerDay: Record<string, number>
-  activeTagIds: number[]
+  tagAssignments: TagAssignments
   acceptedProposals?: AuditorProposal[]
 }
