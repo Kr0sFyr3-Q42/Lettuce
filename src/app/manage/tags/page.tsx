@@ -17,6 +17,8 @@ export default function TagsPage() {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editName, setEditName]   = useState('')
   const [editSnippet, setEditSnippet] = useState('')
+  const [newAllDays, setNewAllDays]   = useState(false)
+  const [newDays, setNewDays]         = useState<string[]>([])
 
   async function load() {
     const res = await fetch('/api/tags')
@@ -69,7 +71,12 @@ export default function TagsPage() {
       body: JSON.stringify({ name, prompt_snippet: snippet }),
     })
     if (!res.ok) { setError((await res.json()).error); return }
-    setName(''); setSnippet('')
+    const created = await res.json()
+    await update(created.id, {
+      default_all_days: newAllDays,
+      default_days: JSON.stringify(newDays),
+    })
+    setName(''); setSnippet(''); setNewAllDays(false); setNewDays([])
     load()
   }
 
@@ -184,6 +191,33 @@ export default function TagsPage() {
           onChange={e => setSnippet(e.target.value)}
           required
         />
+        <div className="space-y-2 pt-1">
+          <Toggle
+            checked={newAllDays}
+            onChange={() => { setNewAllDays(v => !v); setNewDays([]) }}
+            label="Standaard hele week"
+            id="new-all-days"
+          />
+          {!newAllDays && (
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground">Standaard actief op:</p>
+              <div className="flex items-center gap-2 flex-wrap">
+                {DAY_LABELS.map((day, i) => (
+                  <label key={day} className="flex flex-col items-center gap-0.5 cursor-pointer">
+                    <span className="text-[10px] text-muted-foreground">{DAY_SHORT[i]}</span>
+                    <Checkbox
+                      checked={newDays.includes(day)}
+                      onChange={() => setNewDays(prev =>
+                        prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
+                      )}
+                      id={`new-day-${day}`}
+                    />
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
         <Button type="submit" size="sm" onClick={createTag as never}>Toevoegen</Button>
       </Card>
     </div>
