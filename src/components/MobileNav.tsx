@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import ThemeToggle from './ThemeToggle'
 
 const LINKS = [
+  { href: '/',               label: 'Plannen' },
   { href: '/manage/tags',    label: 'Tags' },
   { href: '/manage/freezer', label: 'Kliekjes' },
   { href: '/manage/pantry',  label: 'Voorraad' },
@@ -20,7 +21,7 @@ export default function MobileNav() {
   useEffect(() => { setOpen(false) }, [pathname])
 
   return (
-    <div className="relative md:hidden">
+    <div className="relative">
       {/* Hamburger button */}
       <button
         onClick={() => setOpen(o => !o)}
@@ -52,10 +53,7 @@ export default function MobileNav() {
               {label}
             </Link>
           ))}
-          <div className="border-t border-border px-4 py-3 flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Weergave</span>
-            <ThemeToggle />
-          </div>
+          <ThemeToggle className="w-full border-t border-border px-4 py-3 flex items-center justify-between text-sm text-foreground hover:bg-secondary transition-colors" />
         </div>
       )}
     </div>

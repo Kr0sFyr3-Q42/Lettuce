@@ -20,11 +20,22 @@ export default function ThemeToggle({ className = '' }: { className?: string }) 
     localStorage.setItem('theme', next ? 'dark' : 'light')
   }
 
+  // Full-row variant (used inside hamburger menu)
+  if (className) {
+    return (
+      <button onClick={toggle} className={className}>
+        <span>{dark ? 'Light Mode' : 'Dark Mode'}</span>
+        <span>{dark ? '☀️' : '🌙'}</span>
+      </button>
+    )
+  }
+
+  // Icon-only variant (standalone use)
   return (
     <button
       onClick={toggle}
       aria-label={dark ? 'Schakel naar lichtmodus' : 'Schakel naar donkermodus'}
-      className={`text-base leading-none hover:opacity-70 transition-opacity ${className}`}
+      className="text-base leading-none hover:opacity-70 transition-opacity"
     >
       {dark ? '☀️' : '🌙'}
     </button>

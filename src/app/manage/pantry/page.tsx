@@ -105,7 +105,9 @@ export default function PantryPage() {
       <div>
         <h1 className="text-xl font-semibold text-foreground">Basisvoorraad</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Items in de voorraad worden niet op de boodschappenlijst gezet de AI kan ze dus wel gebruiken bij het genereren van recepten.
+          De AI gaat ervan uit dat alles wat je hier toevoegt al in huis is. Het wordt gebruikt in recepten maar staat niet op je boodschappenlijst. Handig voor basisspullen zoals olie, zout en specerijen, maar ook voor koelkast- en vriezeringrediënten die je nog op voorraad hebt.
+          <br /><br />
+          Tip: Als je wilt dat de AI een volledige boodschappenlijst genereert, laat deze velden leeg. Voeg alleen toe wat je echt in huis hebt, of waarvan je wilt dat de AI het gebruikt, en houdt het actief bij. Zo voorkom je dat de AI dingen toevoegt die je niet in huis hebt.
         </p>
       </div>
 

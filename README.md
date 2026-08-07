@@ -5,16 +5,16 @@ A self-hosted AI meal planner for your home network. Tell it how many people are
 
 ---
 
-
 <img width="2817" height="2041" alt="image" src="https://github.com/user-attachments/assets/7e153bdc-fc96-41dd-8117-f1e3da143d0b" />
 
+---
 
 ## How it works
 
 Lettuce uses a three-step flow:
 
-1. **Configure** — set the number of diners per day (Mon–Sun) and pick your dietary tags
-2. **Audit** — the AI scans your freezer inventory and meal history, then suggests what to use and when
+1. **Configure** — set the number of diners per day (Mon–Sun) and pick your dietary tags per day or for the whole week
+2. **Audit** — the AI scans your kliekjes and meal history, then suggests what to use and when
 3. **Plan** — Claude generates a full weekly menu with recipes and a supermarket shopping list, grouped by department
 
 ---
@@ -22,13 +22,13 @@ Lettuce uses a three-step flow:
 ## Features
 
 - **People Picker** — set the number of diners per day (Mon–Sun)
-- **Dietary Tags** — mix and match constraints per day or for the whole week (vegetarian, gluten-free, lactose-free, keto, etc.) or define custom ones with your own prompt rules
-- **AI Auditor** — before generating, the AI scans your freezer and meal history and suggests what to use
+- **Dietary Tags** — mix and match constraints per day or for the whole week (vegetarian, gluten-free, lactose-free, keto, etc.) or define custom ones with your own prompt rules. Set defaults so your usual preferences are pre-filled every time.
+- **AI Auditor** — before generating, the AI scans your kliekjes and meal history and suggests what to use
 - **AI Planner** — generates a full week of meals + a shopping list grouped by supermarket department
-- **Zero-Waste Logic** — partially used ingredients (half a cabbage, an open can) are carried forward into other meals
-- **Pantry Exclusions** — staples you always have (olive oil, salt, flour) never appear on the shopping list
-- **Supermarket-Aware Quantities** — amounts are rounded to realistic pack sizes so you're not buying 340g of mince
-- **Saved Menus** — save and rescale previous menus for a different number of people
+- **Zero-Waste Logic** — partially used ingredients are carried forward into other meals
+- **Pantry Management** — organise staples by location (fridge, freezer, cupboard). Items here are never put on the shopping list.
+- **Supermarket-Aware Quantities** — amounts are rounded to realistic pack sizes
+- **Saved Menus** — save, browse, and rescale previous menus for a different number of people
 
 ---
 
@@ -37,7 +37,30 @@ Lettuce uses a three-step flow:
 - [Next.js 15](https://nextjs.org) — App Router, TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com)
 - [Drizzle ORM](https://orm.drizzle.team) + SQLite — runs locally, no cloud DB needed
-- [Anthropic SDK](https://docs.anthropic.com) — Claude 3.5 Sonnet
+- [Anthropic SDK](https://docs.anthropic.com) — Claude Haiku 4.5 (auditor) + Claude Sonnet 4.5 (planner)
+
+---
+
+## API Costs
+
+Lettuce makes two AI calls per meal plan generation:
+
+| Call | Model | Input | Output | Cost/call |
+|------|-------|-------|--------|-----------|
+| Kliekjes audit | Claude Haiku 4.5 | ~1 000 tokens | ~300 tokens | ~$0.002 |
+| Meal plan | Claude Sonnet 4.5 | ~2 000 tokens | ~6 000 tokens | ~$0.10 |
+
+**A full meal plan costs roughly $0.10 per generation.** The audit is skipped entirely when your kliekjes list is empty.
+
+### Annual estimate (52 weeks)
+
+| Usage | Cost/year |
+|-------|-----------|
+| Light (simple menus) | ~$3 |
+| Typical | ~$5 |
+| Heavy (culinair tags, full kliekjes) | ~$8 |
+
+About the cost of one coffee per year. Pricing based on Haiku 4.5 at $1.00/$5.00 per 1M tokens and Sonnet 4.5 at ~$3.00/$15.00 per 1M tokens. Current rates via [Anthropic Console](https://console.anthropic.com).
 
 ---
 
@@ -67,6 +90,7 @@ cp .env.example .env.local
 
 ```bash
 npm run db:migrate   # set up the local SQLite database
+npm run db:seed      # seed system tags and pantry basics
 npm run dev          # http://localhost:3000
 ```
 
