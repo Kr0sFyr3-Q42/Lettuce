@@ -16,11 +16,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="border-b border-border bg-card">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             {/* Main row: logo + steps (md+, centred) + nav/hamburger */}
-            <div className="flex items-center justify-between h-12 md:h-14 gap-4">
+            <div className="relative flex items-center justify-between h-12 md:h-14">
               <Link href="/" className="text-foreground hover:opacity-80 transition-opacity flex-shrink-0 font-semibold tracking-tight text-lg">
                 🥬 Lettuce
               </Link>
-              <NavSteps />
+              <div className="absolute left-1/2 -translate-x-1/2">
+                <NavSteps />
+              </div>
               <MobileNav />
             </div>
             {/* Step indicator second row when nav takes up space on very small screens */}
