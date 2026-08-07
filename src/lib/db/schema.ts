@@ -1,11 +1,13 @@
 import { sqliteTable, integer, text, real } from 'drizzle-orm/sqlite-core'
 
 export const tags = sqliteTable('tags', {
-  id:             integer('id').primaryKey({ autoIncrement: true }),
-  name:           text('name').notNull().unique(),
-  prompt_snippet: text('prompt_snippet').notNull(),
-  is_system:      integer('is_system', { mode: 'boolean' }).notNull().default(false),
-  is_active:      integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  id:               integer('id').primaryKey({ autoIncrement: true }),
+  name:             text('name').notNull().unique(),
+  prompt_snippet:   text('prompt_snippet').notNull(),
+  is_system:        integer('is_system', { mode: 'boolean' }).notNull().default(false),
+  is_active:        integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  default_all_days: integer('default_all_days', { mode: 'boolean' }).notNull().default(false),
+  default_days:     text('default_days').notNull().default('[]'),
 })
 
 export const freezer_inventory = sqliteTable('freezer_inventory', {

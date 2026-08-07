@@ -1,12 +1,12 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PeoplePicker, { DAYS } from '@/components/PeoplePicker'
 import TagSelector, { EMPTY_TAG_ASSIGNMENTS } from '@/components/TagSelector'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
-import type { TagAssignments, LettuceSession } from '@/lib/types'
+import type { Tag, TagAssignments, LettuceSession } from '@/lib/types'
 
 const DEFAULT_PERSONS = Object.fromEntries(DAYS.map(d => [d.key, 2]))
 
@@ -14,6 +14,27 @@ export default function Home() {
   const router = useRouter()
   const [personsPerDay, setPersonsPerDay]   = useState<Record<string, number>>(DEFAULT_PERSONS)
   const [tagAssignments, setTagAssignments] = useState<TagAssignments>(EMPTY_TAG_ASSIGNMENTS)
+
+  // Load tag defaults from manage/tags settings
+  useEffect(() => {
+    fetch('/api/tags').then(r => r.json()).then((tags: Tag[]) => {
+      const allDays = tags
+        .filter(t => t.default_all_days)
+        .map(t => t.id)
+
+      const perDay: Partial<Record<string, number[]>> = {}
+      for (const tag of tags) {
+        const days: string[] = JSON.parse(tag.default_days ?? '[]')
+        for (const day of days) {
+          perDay[day] = [...(perDay[day] ?? []), tag.id]
+        }
+      }
+
+      if (allDays.length > 0 || Object.keys(perDay).length > 0) {
+        setTagAssignments({ allDays, perDay })
+      }
+    })
+  }, [])
 
   const anyPersons    = Object.values(personsPerDay).some(n => n > 0)
   const totalPersons  = Object.values(personsPerDay).reduce((a, b) => a + b, 0)
