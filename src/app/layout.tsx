@@ -16,26 +16,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-background text-foreground font-sans">
         <header className="border-b border-border bg-card">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            {/* Main row: logo + steps (md+) + nav */}
-            <div className="flex items-center justify-between h-12 md:h-14 gap-4">
+            <div className="relative flex items-center h-12 md:h-14">
+              {/* Left: logo */}
               <Link href="/" className="text-foreground hover:opacity-80 transition-opacity flex-shrink-0">
                 <Logo variant="horizontal" size={24} />
               </Link>
-              {/* Step indicator — centre on md+, hidden on mobile (shown below) */}
-              <div className="hidden md:block">
+
+              {/* Centre: step indicator — always centred via absolute */}
+              <div className="absolute left-1/2 -translate-x-1/2">
                 <NavSteps />
               </div>
-              <nav className="hidden md:flex items-center gap-5 text-sm text-muted-foreground">
-                <Link href="/manage/tags" className="hover:text-foreground transition-colors">Tags</Link>
-                <Link href="/manage/freezer" className="hover:text-foreground transition-colors">Vriezer</Link>
-                <Link href="/manage/pantry" className="hover:text-foreground transition-colors">Voorraad</Link>
-                <Link href="/saved" className="hover:text-foreground transition-colors">Opgeslagen</Link>
-              </nav>
-              <MobileNav />
-            </div>
-            {/* Step indicator on mobile — below the logo row */}
-            <div className="md:hidden flex justify-center border-t border-border py-2">
-              <NavSteps />
+
+              {/* Right: nav links (md+) + hamburger (below md) */}
+              <div className="ml-auto flex items-center gap-5">
+                <nav className="hidden md:flex items-center gap-5 text-sm text-muted-foreground">
+                  <Link href="/manage/tags" className="hover:text-foreground transition-colors">Tags</Link>
+                  <Link href="/manage/freezer" className="hover:text-foreground transition-colors">Vriezer</Link>
+                  <Link href="/manage/pantry" className="hover:text-foreground transition-colors">Voorraad</Link>
+                  <Link href="/saved" className="hover:text-foreground transition-colors">Opgeslagen</Link>
+                </nav>
+                <MobileNav />
+              </div>
             </div>
           </div>
         </header>
