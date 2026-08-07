@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="flex items-center gap-5">
                 <nav className="hidden md:flex items-center gap-5 text-sm text-muted-foreground">
                   <Link href="/manage/tags" className="hover:text-foreground transition-colors">Tags</Link>
-                  <Link href="/manage/freezer" className="hover:text-foreground transition-colors">Vriezer</Link>
+                  <Link href="/manage/freezer" className="hover:text-foreground transition-colors">Kliekjes</Link>
                   <Link href="/manage/pantry" className="hover:text-foreground transition-colors">Voorraad</Link>
                   <Link href="/saved" className="hover:text-foreground transition-colors">Opgeslagen</Link>
                   <ThemeToggle />

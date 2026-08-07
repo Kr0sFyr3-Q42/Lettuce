@@ -69,7 +69,7 @@ export function buildAuditorPrompt(
   tagAssignments: TagAssignments,
   allTags: Tag[]
 ): { system: string; user: string } {
-  const system = `Je bent een slimme maaltijdplanning-assistent. Analyseer de vriezer-inventaris en \
+  const system = `Je bent een slimme maaltijdplanning-assistent. Analyseer de kliekjes en \
 eetgeschiedenis en doe concrete planningsvoorstellen voor de komende week.
 
 Houd rekening met dieetbeperkingen per dag:
@@ -79,15 +79,15 @@ Retourneer UITSLUITEND valide JSON in dit exacte formaat:
 ${AUDITOR_OUTPUT_SCHEMA}
 
 Regels:
-- Stel alleen items voor die daadwerkelijk in de vriezer staan.
+- Stel alleen kliekjes voor die daadwerkelijk beschikbaar zijn.
 - Vermijd dagen waarop het item niet past vanwege dieetbeperkingen.
 - Houd het beschrijving vriendelijk en in het Nederlands.
 - Als er niets zinvols voor te stellen is, geef een lege proposals-array terug.`
 
   const freezerBlock = freezerItems.length === 0
-    ? 'Vriezer is leeg.'
+    ? 'Geen kliekjes beschikbaar.'
     : freezerItems.map(i =>
-        `- ${i.item_name}: ${i.portions} portie(s), ingevroren op ${i.date_added} (id: ${i.id})`
+        `- ${i.item_name}: ${i.portions} portie(s), bewaard op ${i.date_added} (id: ${i.id})`
       ).join('\n')
 
   const historyBlock = mealHistory.length === 0
@@ -98,7 +98,7 @@ Regels:
     `${d}: ${personsPerDay[d] ?? 0} personen`
   ).join('\n')
 
-  const user = `Vriezer-inventaris:
+  const user = `Beschikbare kliekjes:
 ${freezerBlock}
 
 Eetgeschiedenis (afgelopen 14 dagen):
@@ -107,7 +107,7 @@ ${historyBlock}
 Personen per dag komende week:
 ${personsBlock}
 
-Doe planningsvoorstellen voor vriezer-items die deze week gebruikt kunnen worden.`
+Doe planningsvoorstellen voor kliekjes die deze week gebruikt kunnen worden.`
 
   return { system, user }
 }
@@ -177,7 +177,7 @@ ${PLANNER_OUTPUT_SCHEMA}`
   ).join('\n')
 
   const proposalsBlock = acceptedProposals.length === 0
-    ? 'Geen vriezer-items ingepland.'
+    ? 'Geen kliekjes ingepland.'
     : acceptedProposals.map(p =>
         `- Plan "${p.description}" op ${p.suggested_day}`
       ).join('\n')
@@ -185,7 +185,7 @@ ${PLANNER_OUTPUT_SCHEMA}`
   const user = `Personen per dag:
 ${personsBlock}
 
-Ingeplande vriezer-items (verplicht opnemen):
+Ingeplande kliekjes (verplicht opnemen):
 ${proposalsBlock}
 
 Genereer het weekmenu (maandag t/m zondag) en de boodschappenlijst. \

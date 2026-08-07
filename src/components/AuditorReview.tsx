@@ -33,9 +33,9 @@ export default function AuditorReview({ proposals, onConfirm }: Props) {
       <div className="space-y-6">
         <Card className="p-6 text-center space-y-2">
           <p className="text-2xl">🧊</p>
-          <p className="font-medium text-foreground">Vriezer is leeg</p>
+          <p className="font-medium text-foreground">Geen kliekjes gevonden</p>
           <p className="text-sm text-muted-foreground">
-            Geen vriezer-items gevonden om in te plannen.
+            Voeg kliekjes toe via het Kliekjes-menu om ze in te plannen.
           </p>
         </Card>
         <Button variant="primary" size="lg" className="w-full" onClick={() => onConfirm([])}>
@@ -48,9 +48,9 @@ export default function AuditorReview({ proposals, onConfirm }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-foreground mb-1">Vriezer-scan</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-1">Kliekjes inplannen</h2>
         <p className="text-sm text-muted-foreground">
-          De AI heeft deze items in je vriezer gevonden. Selecteer wat je deze week wil gebruiken.
+          De AI heeft deze kliekjes gevonden. Selecteer wat je deze week wil gebruiken.
         </p>
       </div>
 

@@ -60,7 +60,7 @@ export default function PlanningPage() {
         <div className="text-center space-y-3">
           <p className="text-4xl animate-pulse">🧠</p>
           <p className="font-medium text-foreground">AI is aan het nadenken...</p>
-          <p className="text-sm text-muted-foreground">Vriezer en eetgeschiedenis worden gescand</p>
+          <p className="text-sm text-muted-foreground">Kliekjes en eetgeschiedenis worden gescand</p>
         </div>
       </div>
     )

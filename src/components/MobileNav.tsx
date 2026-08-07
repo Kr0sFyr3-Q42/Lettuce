@@ -7,7 +7,7 @@ import ThemeToggle from './ThemeToggle'
 
 const LINKS = [
   { href: '/manage/tags',    label: 'Tags' },
-  { href: '/manage/freezer', label: 'Vriezer' },
+  { href: '/manage/freezer', label: 'Kliekjes' },
   { href: '/manage/pantry',  label: 'Voorraad' },
   { href: '/saved',          label: 'Opgeslagen' },
 ]
