@@ -31,8 +31,9 @@ export default function PeoplePicker({ value, onChange }: Props) {
         return (
           <div key={key} className="flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 rounded-xl border border-border bg-card">
             {/* Day label */}
-            <div className="w-10 sm:w-14 flex-shrink-0">
-              <p className="text-sm font-bold leading-none">{label}</p>
+            <div className="flex-shrink-0 sm:w-14">
+              <p className="text-sm font-bold leading-none sm:hidden">{key}</p>
+              <p className="hidden sm:block text-sm font-bold leading-none">{label}</p>
               <p className="hidden sm:block text-xs text-muted-foreground mt-0.5">{key}</p>
             </div>
 
