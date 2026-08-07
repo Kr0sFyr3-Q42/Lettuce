@@ -95,7 +95,7 @@ export async function POST(req: Request) {
 
     const response = await client.messages.create({
       model: MODEL,
-      max_tokens: 4096,
+      max_tokens: 8192,
       system: prompt.system,
       messages: [{ role: 'user', content: prompt.user }],
       tools: [PLANNER_TOOL],
