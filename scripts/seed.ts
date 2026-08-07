@@ -13,10 +13,10 @@ const SYSTEM_TAGS = [
 for (const tag of SYSTEM_TAGS) {
   const existing = db.select().from(tags).where(eq(tags.name, tag.name)).get()
   if (!existing) {
-    db.insert(tags).values({ ...tag, is_system: true, is_active: true }).run()
+    db.insert(tags).values({ ...tag, is_system: false, is_active: true }).run()
     console.log(`Inserted tag: ${tag.name}`)
   } else {
-    db.update(tags).set({ prompt_snippet: tag.prompt_snippet }).where(eq(tags.name, tag.name)).run()
+    db.update(tags).set({ prompt_snippet: tag.prompt_snippet, is_system: false }).where(eq(tags.name, tag.name)).run()
     console.log(`Updated tag: ${tag.name}`)
   }
 }
