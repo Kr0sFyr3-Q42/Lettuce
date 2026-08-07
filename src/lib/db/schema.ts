@@ -38,4 +38,5 @@ export const saved_menus = sqliteTable('saved_menus', {
   menu_data:       text('menu_data').notNull(),
   persons_per_day: text('persons_per_day').notNull(),
   created_at:      text('created_at').notNull(),
+  is_autosaved:    integer('is_autosaved', { mode: 'boolean' }).notNull().default(false),
 })
