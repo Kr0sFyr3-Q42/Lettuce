@@ -109,6 +109,10 @@ export async function POST(req: Request) {
 
     const output = toolBlock.input as PlannerOutput
 
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[planner] tool output:', JSON.stringify(output, null, 2))
+    }
+
     if (!Array.isArray(output.days) || !Array.isArray(output.shopping_list)) {
       throw new Error(`Claude retourneerde een onvolledig weekmenu (ontbrekende velden: ${!Array.isArray(output.days) ? 'days ' : ''}${!Array.isArray(output.shopping_list) ? 'shopping_list' : ''}).`)
     }
