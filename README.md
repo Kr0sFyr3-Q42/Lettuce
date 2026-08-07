@@ -18,7 +18,7 @@ Lettuce uses a three-step flow:
 ## Features
 
 - **People Picker** — set the number of diners per day (Mon–Sun)
-- **Dietary Tags** — mix and match constraints (vegetarian, gluten-free, lactose-free, etc.) or define custom ones with your own prompt rules
+- **Dietary Tags** — mix and match constraints per day or for the whole week (vegetarian, gluten-free, lactose-free, keto, etc.) or define custom ones with your own prompt rules
 - **AI Auditor** — before generating, the AI scans your freezer and meal history and suggests what to use
 - **AI Planner** — generates a full week of meals + a shopping list grouped by supermarket department
 - **Zero-Waste Logic** — partially used ingredients (half a cabbage, an open can) are carried forward into other meals
