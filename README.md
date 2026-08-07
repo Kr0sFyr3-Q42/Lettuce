@@ -5,6 +5,10 @@ A self-hosted AI meal planner for your home network. Tell it how many people are
 
 ---
 
+
+<img width="2817" height="2041" alt="image" src="https://github.com/user-attachments/assets/7e153bdc-fc96-41dd-8117-f1e3da143d0b" />
+
+
 ## How it works
 
 Lettuce uses a three-step flow:
