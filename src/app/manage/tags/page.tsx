@@ -97,7 +97,7 @@ export default function TagsPage() {
         />
         <textarea
           className="w-full border border-gray-300 rounded px-3 py-2 text-sm h-20 resize-none"
-          placeholder="Prompt instructie (bijv. Alle maaltijden zijn halal.)"
+          placeholder="Prompt instructie (bijv. Gebruik niet de volgende ingrediënten: ...)"
           value={snippet}
           onChange={e => setSnippet(e.target.value)}
           required
