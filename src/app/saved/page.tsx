@@ -25,7 +25,7 @@ function formatAsText(output: PlannerOutput): string {
   return `🥬 Lettuce Weekmenu\n${'─'.repeat(40)}\n\n${menu}\n\n${'─'.repeat(40)}\nBOODSCHAPPENLIJST\n${'─'.repeat(40)}\n\n${shopping}`
 }
 
-type SavedMenuSummary = { id: number; name: string; created_at: string }
+type SavedMenuSummary = { id: number; name: string; created_at: string; is_autosaved: boolean }
 
 type DetailView = {
   id: number
@@ -156,36 +156,58 @@ export default function SavedPage() {
   }
 
   // ── List view ─────────────────────────────────────────────────────────────
-  return (
-    <div className="max-w-2xl mx-auto px-4 py-10 space-y-6">
-      <h1 className="text-xl font-bold text-foreground">Opgeslagen menu&apos;s</h1>
+  const saved    = list.filter(m => !m.is_autosaved)
+  const autosaved = list.filter(m => m.is_autosaved)
 
-      {list.length === 0 && (
-        <Card className="p-8 text-center space-y-2">
-          <p className="text-3xl">📋</p>
-          <p className="font-medium text-foreground">Nog geen opgeslagen menu&apos;s</p>
-          <p className="text-sm text-muted-foreground">
-            Genereer een weekmenu en sla het op via de resultaatpagina.
-          </p>
-        </Card>
-      )}
-
-      <div className="space-y-3">
-        {list.map(item => (
-          <Card key={item.id} className="flex items-center justify-between px-4 py-3">
-            <div>
-              <p className="font-medium text-sm text-foreground">{item.name}</p>
-              <p className="text-xs text-muted-foreground">{item.created_at}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button size="sm" variant="secondary" onClick={() => openMenu(item)}>Laden</Button>
-              <Button size="sm" variant="ghost" onClick={() => deleteMenu(item.id)}>
-                <span className="text-red-500">Verwijder</span>
-              </Button>
-            </div>
-          </Card>
-        ))}
+  const MenuRow = ({ item }: { item: SavedMenuSummary }) => (
+    <Card key={item.id} className="flex items-center justify-between px-4 py-3">
+      <div>
+        <p className="font-medium text-sm text-foreground">{item.name}</p>
+        <p className="text-xs text-muted-foreground">{item.created_at}</p>
       </div>
+      <div className="flex items-center gap-2">
+        <Button size="sm" variant="secondary" onClick={() => openMenu(item)}>Laden</Button>
+        <Button size="sm" variant="ghost" onClick={() => deleteMenu(item.id)}>
+          <span className="text-red-500">Verwijder</span>
+        </Button>
+      </div>
+    </Card>
+  )
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-10 space-y-10">
+      {/* Manually saved */}
+      <div className="space-y-4">
+        <h1 className="text-xl font-bold text-foreground">Opgeslagen menu&apos;s</h1>
+        {saved.length === 0 ? (
+          <Card className="p-8 text-center space-y-2">
+            <p className="text-3xl">📋</p>
+            <p className="font-medium text-foreground">Nog geen opgeslagen menu&apos;s</p>
+            <p className="text-sm text-muted-foreground">
+              Genereer een weekmenu en sla het op via de resultaatpagina.
+            </p>
+          </Card>
+        ) : (
+          <div className="space-y-3">
+            {saved.map(item => <MenuRow key={item.id} item={item} />)}
+          </div>
+        )}
+      </div>
+
+      {/* Auto-saved */}
+      {autosaved.length > 0 && (
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-lg font-semibold text-foreground">Automatisch opgeslagen</h2>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              Elk gegenereerd menu wordt automatisch bewaard zodat je het nooit kwijtraakt.
+            </p>
+          </div>
+          <div className="space-y-3">
+            {autosaved.map(item => <MenuRow key={item.id} item={item} />)}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

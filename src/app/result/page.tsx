@@ -60,6 +60,22 @@ export default function ResultPage() {
       }
       const output: PlannerOutput = await res.json()
       setState({ status: 'done', output, personsPerDay: session.personsPerDay })
+
+      // Auto-save silently so the user never loses a generated plan
+      const label = new Date().toLocaleString('nl-NL', {
+        day: 'numeric', month: 'long', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      })
+      fetch('/api/saved-menus', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: `Gegenereerd op ${label}`,
+          menu_data: output,
+          persons_per_day: session.personsPerDay,
+          is_autosaved: true,
+        }),
+      }).catch(() => { /* silently ignore auto-save failures */ })
     }
     run()
   }, [router])

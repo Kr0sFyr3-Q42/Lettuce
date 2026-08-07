@@ -1,0 +1,1 @@
+ALTER TABLE `saved_menus` ADD `is_autosaved` integer DEFAULT false NOT NULL;
