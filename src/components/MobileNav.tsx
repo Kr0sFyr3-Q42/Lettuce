@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import ThemeToggle from './ThemeToggle'
 
 const LINKS = [
   { href: '/manage/tags',    label: 'Tags' },
@@ -51,6 +52,10 @@ export default function MobileNav() {
               {label}
             </Link>
           ))}
+          <div className="border-t border-border px-4 py-3 flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Weergave</span>
+            <ThemeToggle />
+          </div>
         </div>
       )}
     </div>

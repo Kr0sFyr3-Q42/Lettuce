@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Logo from '@/components/Logo'
 import NavSteps from '@/components/NavSteps'
 import MobileNav from '@/components/MobileNav'
+import ThemeToggle from '@/components/ThemeToggle'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <Link href="/manage/freezer" className="hover:text-foreground transition-colors">Vriezer</Link>
                   <Link href="/manage/pantry" className="hover:text-foreground transition-colors">Voorraad</Link>
                   <Link href="/saved" className="hover:text-foreground transition-colors">Opgeslagen</Link>
+                  <ThemeToggle />
                 </nav>
                 <MobileNav />
               </div>
