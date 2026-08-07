@@ -162,7 +162,7 @@ VASTE REGELS:
     groenten (zak): 200g, 250g, 400g of 500g
     pasta/rijst: 500g of 1000g
 - Gebruik deels verbruikte ingrediënten elders in de week (zero-waste).
-- Zet NIET op de boodschappenlijst (al in huis): ${formatPantryList(pantryItems)}
+- De volgende ingrediënten zijn altijd in huis. Gebruik ze gerust in recepten maar zet ze NIET op de boodschappenlijst: ${formatPantryList(pantryItems)}
 - Vermijd maaltijden die recent gegeten zijn: ${formatMealHistory(mealHistory)}
 - Plan één maaltijd per dag (avondeten).
 

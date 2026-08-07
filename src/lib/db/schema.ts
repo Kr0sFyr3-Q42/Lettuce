@@ -20,6 +20,7 @@ export const pantry_inventory = sqliteTable('pantry_inventory', {
   item_name: text('item_name').notNull(),
   unit:      text('unit'),
   quantity:  real('quantity'),
+  location:  text('location').notNull().default('voorraadkast'),
 })
 
 export const meal_history = sqliteTable('meal_history', {

@@ -1,0 +1,1 @@
+ALTER TABLE `pantry_inventory` ADD `location` text DEFAULT 'voorraadkast' NOT NULL;
