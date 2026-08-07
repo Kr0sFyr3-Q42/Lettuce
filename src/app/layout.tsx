@@ -15,18 +15,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-background text-foreground font-sans">
         <header className="border-b border-border bg-card">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            {/* Main row: logo + steps (md+, centred) + nav/hamburger */}
-            <div className="relative flex items-center justify-between h-12 md:h-14">
+            {/* Main row */}
+            <div className="relative flex items-center justify-between h-14">
               <Link href="/" className="text-foreground hover:opacity-80 transition-opacity flex-shrink-0 font-semibold tracking-tight text-lg">
                 🥬 Lettuce
               </Link>
-              <div className="absolute left-1/2 -translate-x-1/2">
+              {/* Step indicator — centered in bar on sm+, hidden on mobile */}
+              <div className="hidden sm:block absolute left-1/2 -translate-x-1/2">
                 <NavSteps />
               </div>
               <MobileNav />
             </div>
-            {/* Step indicator second row when nav takes up space on very small screens */}
-            <div className="hidden flex justify-center border-t border-border py-2">
+            {/* Step indicator — second row on mobile only */}
+            <div className="sm:hidden flex justify-center border-t border-border py-1.5">
               <NavSteps />
             </div>
           </div>
