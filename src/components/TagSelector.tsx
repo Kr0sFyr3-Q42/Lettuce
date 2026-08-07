@@ -69,18 +69,25 @@ export default function TagSelector({ value, onChange }: Props) {
         )}
         {tagList.map(tag => (
           <div key={tag.id} className="border-b border-border last:border-0 bg-card px-4 py-3">
-            <div className="flex items-center gap-3">
-              <Toggle
-                checked={isAllDays(tag.id)}
-                onChange={() => toggleAllDays(tag.id)}
-                id={`toggle-${tag.id}`}
-              />
-              <span className="text-sm font-medium flex-1 cursor-default" title={tag.prompt_snippet}>
-                {tag.name}
-              </span>
+            <div className="flex flex-col gap-2">
+              {/* Top row: toggle + name + "hele week" label */}
+              <div className="flex items-center gap-3">
+                <Toggle
+                  checked={isAllDays(tag.id)}
+                  onChange={() => toggleAllDays(tag.id)}
+                  id={`toggle-${tag.id}`}
+                />
+                <span className="text-sm font-medium flex-1 cursor-default" title={tag.prompt_snippet}>
+                  {tag.name}
+                </span>
+                {isAllDays(tag.id) && (
+                  <span className="text-xs text-muted-foreground italic">hele week</span>
+                )}
+              </div>
 
-              {!isAllDays(tag.id) ? (
-                <div className="flex items-center gap-2">
+              {/* Day checkboxes — shown below when not "hele week" */}
+              {!isAllDays(tag.id) && (
+                <div className="flex items-center gap-2 flex-wrap pl-14">
                   {DAY_LABELS.map((day, i) => (
                     <label key={day} className="flex flex-col items-center gap-0.5 cursor-pointer">
                       <span className="text-[10px] text-muted-foreground">{DAY_SHORT[i]}</span>
@@ -92,8 +99,6 @@ export default function TagSelector({ value, onChange }: Props) {
                     </label>
                   ))}
                 </div>
-              ) : (
-                <span className="text-xs text-muted-foreground italic">hele week</span>
               )}
             </div>
           </div>

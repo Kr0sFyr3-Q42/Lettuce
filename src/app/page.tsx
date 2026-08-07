@@ -54,7 +54,7 @@ export default function Home() {
 
             <TagSelector value={tagAssignments} onChange={setTagAssignments} />
 
-            <div className="grid grid-cols-2 gap-3 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
               <Card className="p-4">
                 <p className="text-xs font-medium text-muted-foreground">Actieve filters</p>
                 <p className="text-2xl font-bold mt-0.5">{activeTagCount}</p>

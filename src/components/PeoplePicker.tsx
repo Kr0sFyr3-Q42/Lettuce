@@ -29,15 +29,15 @@ export default function PeoplePicker({ value, onChange }: Props) {
       {DAYS.map(({ key, label }) => {
         const count = value[key] ?? 2
         return (
-          <div key={key} className="flex items-center gap-4 px-4 py-3 rounded-xl border border-border bg-card">
+          <div key={key} className="flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 rounded-xl border border-border bg-card">
             {/* Day label */}
-            <div className="w-14 flex-shrink-0">
+            <div className="w-10 sm:w-14 flex-shrink-0">
               <p className="text-sm font-bold leading-none">{label}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{key}</p>
+              <p className="hidden sm:block text-xs text-muted-foreground mt-0.5">{key}</p>
             </div>
 
-            {/* Person dots */}
-            <div className="flex-1 flex items-center gap-1.5">
+            {/* Person dots — hidden on mobile */}
+            <div className="hidden sm:flex flex-1 items-center gap-1.5">
               {Array.from({ length: MAX_DOTS }).map((_, i) => (
                 <button
                   key={i}
@@ -59,7 +59,10 @@ export default function PeoplePicker({ value, onChange }: Props) {
               ))}
             </div>
 
-            {/* Stepper */}
+            {/* Spacer on mobile so stepper sits to the right */}
+            <div className="flex-1 sm:hidden" />
+
+            {/* Stepper — always visible */}
             <div className="flex-shrink-0">
               <Stepper value={count} onChange={n => set(key, n)} min={0} max={20} label={`Personen op ${key}`} />
             </div>
