@@ -10,7 +10,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { item_name, unit, quantity } = await req.json()
+    const { item_name, unit, quantity, location } = await req.json()
     if (!item_name?.trim()) return Response.json({ error: 'Naam is verplicht.' }, { status: 400 })
     const row = db
       .insert(pantry_inventory)
@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
         item_name: item_name.trim(),
         unit: unit?.trim() || null,
         quantity: quantity != null ? Number(quantity) : null,
+        location: location ?? 'voorraadkast',
       })
       .returning()
       .get()

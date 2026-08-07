@@ -7,14 +7,30 @@ import { buildAuditorPrompt } from '@/lib/ai/prompt-assembly'
 import type { AuditorOutput, TagAssignments } from '@/lib/types'
 
 const client = new Anthropic()
-
-// Haiku is sufficient for the lightweight auditor scan
 const MODEL = 'claude-haiku-4-5-20251001'
 
-function extractText(response: Anthropic.Message): string {
-  const block = response.content[0]
-  if (block.type !== 'text') throw new Error('Onverwacht response-type van Claude')
-  return block.text
+const AUDITOR_TOOL: Anthropic.Tool = {
+  name: 'scan_freezer',
+  description: 'Analyseer kliekjes en doe planningsvoorstellen voor de komende week',
+  input_schema: {
+    type: 'object' as const,
+    properties: {
+      proposals: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            id:              { type: 'string' },
+            description:     { type: 'string' },
+            suggested_day:   { type: 'string' },
+            freezer_item_id: { type: 'number' },
+          },
+          required: ['id', 'description', 'suggested_day', 'freezer_item_id'],
+        },
+      },
+    },
+    required: ['proposals'],
+  },
 }
 
 export async function POST(req: Request) {
@@ -25,6 +41,11 @@ export async function POST(req: Request) {
     }
 
     const freezerItems = db.select().from(freezer_inventory).all()
+
+    // Skip AI call when freezer is empty — nothing to audit
+    if (freezerItems.length === 0) {
+      return Response.json({ proposals: [] } satisfies AuditorOutput)
+    }
 
     const cutoff = new Date()
     cutoff.setDate(cutoff.getDate() - 14)
@@ -46,37 +67,21 @@ export async function POST(req: Request) {
       allTags
     )
 
-    const messages: Anthropic.MessageParam[] = [
-      { role: 'user', content: prompt.user },
-    ]
-
-    const first = await client.messages.create({
+    const response = await client.messages.create({
       model: MODEL,
       max_tokens: 1024,
       system: prompt.system,
-      messages,
+      messages: [{ role: 'user', content: prompt.user }],
+      tools: [AUDITOR_TOOL],
+      tool_choice: { type: 'tool', name: 'scan_freezer' },
     })
 
-    const rawText = extractText(first)
-
-    let output: AuditorOutput
-    try {
-      output = JSON.parse(rawText)
-    } catch {
-      const retry = await client.messages.create({
-        model: MODEL,
-        max_tokens: 1024,
-        system: prompt.system,
-        messages: [
-          ...messages,
-          { role: 'assistant', content: rawText },
-          { role: 'user', content: 'Je vorige antwoord was geen valide JSON. Probeer opnieuw en retourneer uitsluitend het JSON object.' },
-        ],
-      })
-      output = JSON.parse(extractText(retry))
+    const toolBlock = response.content.find(b => b.type === 'tool_use')
+    if (!toolBlock || toolBlock.type !== 'tool_use') {
+      throw new Error('Claude retourneerde geen tool-aanroep.')
     }
 
-    return Response.json(output)
+    return Response.json(toolBlock.input as AuditorOutput)
   } catch (e: unknown) {
     return Response.json({ error: toApiError(e) }, { status: 500 })
   }

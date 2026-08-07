@@ -82,7 +82,7 @@ export default function Home() {
                 Volgende stap →
               </Button>
               <p className="text-xs text-center text-muted-foreground mt-3" style={{ fontFamily: 'Inter, sans-serif' }}>
-                De AI controleert je vriezer & eetgeschiedenis voor je bevestigt.
+                De AI controleert je kliekjes & eetgeschiedenis voor je bevestigt.
               </p>
             </div>
           </div>

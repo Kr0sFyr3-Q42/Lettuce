@@ -46,11 +46,11 @@ export default function FreezerPage() {
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-4 space-y-8">
-      <h1 className="text-xl font-semibold text-foreground">Vriezer</h1>
+      <h1 className="text-xl font-semibold text-foreground">Kliekjes</h1>
 
       <Card className="overflow-hidden divide-y divide-border">
         {items.length === 0 && (
-          <p className="px-4 py-6 text-sm text-muted-foreground text-center">Vriezer is leeg.</p>
+          <p className="px-4 py-6 text-sm text-muted-foreground text-center">Geen kliekjes gevonden.</p>
         )}
         {items.map(item => (
           <div key={item.id} className="flex items-center justify-between px-4 py-3">
@@ -80,7 +80,7 @@ export default function FreezerPage() {
       </Card>
 
       <Card className="p-4 space-y-3 bg-secondary">
-        <h2 className="font-medium text-sm text-foreground">Toevoegen</h2>
+        <h2 className="font-medium text-sm text-foreground">Kliekje toevoegen</h2>
         <input
           className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           placeholder="Naam (bijv. Stoofvlees)"
