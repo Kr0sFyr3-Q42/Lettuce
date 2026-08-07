@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { toApiError, extractJson } from '@/lib/ai/errors'
+import { toApiError } from '@/lib/ai/errors'
 import { db } from '@/lib/db'
 import { pantry_inventory, meal_history, tags } from '@/lib/db/schema'
 import { gte } from 'drizzle-orm'
@@ -9,10 +9,59 @@ import type { PlannerOutput, TagAssignments, AuditorProposal } from '@/lib/types
 const client = new Anthropic()
 const MODEL = 'claude-sonnet-4-5'
 
-function extractText(response: Anthropic.Message): string {
-  const block = response.content[0]
-  if (block.type !== 'text') throw new Error('Onverwacht response-type van Claude')
-  return block.text
+const PLANNER_TOOL: Anthropic.Tool = {
+  name: 'generate_meal_plan',
+  description: 'Genereer een volledig weekmenu en geconsolideerde boodschappenlijst',
+  input_schema: {
+    type: 'object' as const,
+    properties: {
+      days: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            day:     { type: 'string' },
+            persons: { type: 'number' },
+            meals: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name:         { type: 'string' },
+                  recipe_steps: { type: 'array', items: { type: 'string' } },
+                },
+                required: ['name', 'recipe_steps'],
+              },
+            },
+          },
+          required: ['day', 'persons', 'meals'],
+        },
+      },
+      shopping_list: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            department: { type: 'string' },
+            items: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name:     { type: 'string' },
+                  quantity: { type: 'string' },
+                  unit:     { type: 'string' },
+                },
+                required: ['name', 'quantity', 'unit'],
+              },
+            },
+          },
+          required: ['department', 'items'],
+        },
+      },
+    },
+    required: ['days', 'shopping_list'],
+  },
 }
 
 export async function POST(req: Request) {
@@ -44,35 +93,21 @@ export async function POST(req: Request) {
       recentMeals
     )
 
-    const messages: Anthropic.MessageParam[] = [
-      { role: 'user', content: prompt.user },
-    ]
-
-    const first = await client.messages.create({
+    const response = await client.messages.create({
       model: MODEL,
       max_tokens: 4096,
       system: prompt.system,
-      messages,
+      messages: [{ role: 'user', content: prompt.user }],
+      tools: [PLANNER_TOOL],
+      tool_choice: { type: 'tool', name: 'generate_meal_plan' },
     })
 
-    const rawText = extractText(first)
-
-    let output: PlannerOutput
-    try {
-      output = JSON.parse(extractJson(rawText))
-    } catch {
-      const retry = await client.messages.create({
-        model: MODEL,
-        max_tokens: 4096,
-        system: prompt.system,
-        messages: [
-          ...messages,
-          { role: 'assistant', content: rawText },
-          { role: 'user', content: 'Je vorige antwoord was geen valide JSON. Probeer opnieuw en retourneer uitsluitend het JSON object.' },
-        ],
-      })
-      output = JSON.parse(extractJson(extractText(retry)))
+    const toolBlock = response.content.find(b => b.type === 'tool_use')
+    if (!toolBlock || toolBlock.type !== 'tool_use') {
+      throw new Error('Claude retourneerde geen tool-aanroep.')
     }
+
+    const output = toolBlock.input as PlannerOutput
 
     // Write generated meals to history
     const today = new Date().toISOString().split('T')[0]

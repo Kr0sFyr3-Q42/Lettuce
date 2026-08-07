@@ -51,17 +51,6 @@ export function formatDayConstraints(
 // Auditor prompt
 // ---------------------------------------------------------------------------
 
-const AUDITOR_OUTPUT_SCHEMA = `{
-  "proposals": [
-    {
-      "id": "string (uuid)",
-      "description": "string (Dutch, friendly suggestion, e.g. 'Ik zie 2 porties stoofvlees — plannen op woensdag?')",
-      "suggested_day": "string (e.g. 'Woensdag')",
-      "freezer_item_id": "number"
-    }
-  ]
-}`
-
 export function buildAuditorPrompt(
   freezerItems: FreezerItem[],
   mealHistory: MealHistory[],
@@ -75,13 +64,10 @@ eetgeschiedenis en doe concrete planningsvoorstellen voor de komende week.
 Houd rekening met dieetbeperkingen per dag:
 ${formatDayConstraints(tagAssignments, allTags)}
 
-Retourneer UITSLUITEND valide JSON in dit exacte formaat:
-${AUDITOR_OUTPUT_SCHEMA}
-
 Regels:
 - Stel alleen kliekjes voor die daadwerkelijk beschikbaar zijn.
 - Vermijd dagen waarop het item niet past vanwege dieetbeperkingen.
-- Houd het beschrijving vriendelijk en in het Nederlands.
+- Houd de beschrijving vriendelijk en in het Nederlands.
 - Als er niets zinvols voor te stellen is, geef een lege proposals-array terug.`
 
   const freezerBlock = freezerItems.length === 0
@@ -116,33 +102,6 @@ Doe planningsvoorstellen voor kliekjes die deze week gebruikt kunnen worden.`
 // Planner prompt
 // ---------------------------------------------------------------------------
 
-const PLANNER_OUTPUT_SCHEMA = `{
-  "days": [
-    {
-      "day": "string (e.g. 'Maandag')",
-      "persons": "number",
-      "meals": [
-        {
-          "name": "string",
-          "recipe_steps": ["string"]
-        }
-      ]
-    }
-  ],
-  "shopping_list": [
-    {
-      "department": "string (e.g. 'Vlees & vis', 'Groenten & fruit', 'Zuivel', 'Bakkerij', 'Diepvries', 'Overig')",
-      "items": [
-        {
-          "name": "string",
-          "quantity": "string",
-          "unit": "string (e.g. 'gram', 'stuks', 'liter')"
-        }
-      ]
-    }
-  ]
-}`
-
 export function buildPlannerPrompt(
   allTags: Tag[],
   personsPerDay: Record<string, number>,
@@ -167,10 +126,7 @@ VASTE REGELS:
 - Plan één maaltijd per dag (avondeten).
 
 DIEETBEPERKINGEN PER DAG:
-${formatDayConstraints(tagAssignments, allTags)}
-
-Retourneer UITSLUITEND valide JSON in dit exacte formaat:
-${PLANNER_OUTPUT_SCHEMA}`
+${formatDayConstraints(tagAssignments, allTags)}`
 
   const personsBlock = DAYS.map(d =>
     `${d}: ${personsPerDay[d] ?? 0} personen`
