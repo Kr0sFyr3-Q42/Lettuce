@@ -36,17 +36,15 @@ export default function PeoplePicker({ value, onChange }: Props) {
               <p className="hidden sm:block text-xs text-muted-foreground mt-0.5">{key}</p>
             </div>
 
-            {/* Person dots — hidden on mobile */}
-            <div className="hidden sm:flex flex-1 items-center gap-1.5">
+            {/* Person dots — hidden on mobile, 8 on sm–lg, 12 on xl+ */}
+            <div className="hidden sm:flex flex-1 items-center gap-1.5 min-w-0">
               {Array.from({ length: MAX_DOTS }).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => set(key, i + 1)}
-                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                    i < count
-                      ? 'border-primary bg-primary'
-                      : 'border-border bg-transparent hover:border-primary/50'
-                  }`}
+                  className={`flex-shrink-0 w-6 h-6 rounded-full border-2 items-center justify-center transition-all
+                    ${i >= 8 ? 'hidden xl:flex' : 'flex'}
+                    ${i < count ? 'border-primary bg-primary' : 'border-border bg-transparent hover:border-primary/50'}`}
                   aria-label={`${i + 1} personen op ${key}`}
                 >
                   {i < count && (
@@ -59,7 +57,7 @@ export default function PeoplePicker({ value, onChange }: Props) {
               ))}
             </div>
 
-            {/* Spacer on mobile so stepper sits to the right */}
+            {/* Spacer on mobile */}
             <div className="flex-1 sm:hidden" />
 
             {/* Stepper — always visible */}
