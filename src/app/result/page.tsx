@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import MenuDisplay from '@/components/MenuDisplay'
 import ShoppingList from '@/components/ShoppingList'
 import Button from '@/components/ui/Button'
+import { useLocale } from '@/hooks/useLocale'
 import type { LettuceSession, PlannerOutput } from '@/lib/types'
 
 type State =
@@ -16,6 +17,7 @@ type SaveState = 'idle' | 'saving' | 'saved'
 
 export default function ResultPage() {
   const router = useRouter()
+  const { locale, t } = useLocale()
   const [state, setState] = useState<State>({ status: 'loading' })
   const [saveState, setSaveState] = useState<SaveState>('idle')
   const [saveName, setSaveName] = useState('')
@@ -78,8 +80,8 @@ export default function ResultPage() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center space-y-3">
           <p className="text-4xl animate-pulse">🥬</p>
-          <p className="font-medium text-foreground">Weekmenu wordt gegenereerd...</p>
-          <p className="text-sm text-muted-foreground">Even geduld, dit duurt 15–30 seconden</p>
+          <p className="font-medium text-foreground">{t('result_loading_title')}</p>
+          <p className="text-sm text-muted-foreground">{t('result_loading_sub')}</p>
         </div>
       </div>
     )
@@ -94,24 +96,24 @@ export default function ResultPage() {
       {/* Actions */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Jouw weekmenu</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Gegenereerd door Claude</p>
+          <h1 className="text-2xl font-bold text-foreground">{t('result_heading')}</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">{t('result_sub')}</p>
         </div>
         <div className="flex items-center gap-3">
           {!showSaveForm ? (
             <>
               <Button variant="secondary" size="sm" onClick={() => setShowSaveForm(true)}>
-                {saveState === 'saved' ? '✓ Opgeslagen' : 'Opslaan'}
+                {saveState === 'saved' ? t('result_saved') : t('result_save')}
               </Button>
               <Button variant="ghost" size="sm" onClick={handleRestart}>
-                Opnieuw beginnen
+                {t('result_restart')}
               </Button>
             </>
           ) : (
             <div className="flex items-center gap-2">
               <input
                 className="border border-border rounded-lg px-3 py-1.5 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring w-44"
-                placeholder="Naam voor dit menu"
+                placeholder={t('result_save_ph')}
                 value={saveName}
                 onChange={e => setSaveName(e.target.value)}
                 autoFocus
@@ -121,10 +123,10 @@ export default function ResultPage() {
                 onClick={handleSave}
                 disabled={!saveName.trim() || saveState === 'saving'}
               >
-                {saveState === 'saving' ? 'Bezig...' : 'Opslaan'}
+                {saveState === 'saving' ? t('result_saving') : t('result_save')}
               </Button>
               <Button variant="ghost" size="sm" onClick={() => setShowSaveForm(false)}>
-                Annuleer
+                {t('result_cancel')}
               </Button>
             </div>
           )}
@@ -133,9 +135,9 @@ export default function ResultPage() {
 
       {/* Content: menu left, shopping list right on lg+ */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <MenuDisplay days={output.days} />
+        <MenuDisplay days={output.days} locale={locale} />
         <div className="lg:sticky lg:top-6 lg:self-start">
-          <ShoppingList departments={output.shopping_list} />
+          <ShoppingList departments={output.shopping_list} locale={locale} />
         </div>
       </div>
     </div>

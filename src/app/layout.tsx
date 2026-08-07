@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import NavSteps from '@/components/NavSteps'
 import MobileNav from '@/components/MobileNav'
+import { LocaleProvider } from '@/components/LocaleProvider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="nl">
       <body className="min-h-screen bg-background text-foreground font-sans">
+        <LocaleProvider>
         <header className="border-b border-border bg-card">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             {/* Main row */}
@@ -33,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
         <main>{children}</main>
+        </LocaleProvider>
       </body>
     </html>
   )

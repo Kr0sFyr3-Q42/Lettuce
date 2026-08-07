@@ -4,11 +4,12 @@ import { useState } from 'react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Toggle'
+import { type Locale, t } from '@/lib/i18n'
 import type { ShoppingDepartment } from '@/lib/types'
 
-type Props = { departments: ShoppingDepartment[] }
+type Props = { departments: ShoppingDepartment[]; locale?: Locale }
 
-export default function ShoppingList({ departments }: Props) {
+export default function ShoppingList({ departments, locale = 'nl' }: Props) {
   const [checked, setChecked] = useState<Set<string>>(new Set())
   const [copied, setCopied] = useState(false)
 
@@ -37,13 +38,13 @@ export default function ShoppingList({ departments }: Props) {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-foreground">
-          Boodschappenlijst
+          {t(locale, 'result_shop_heading')}
           <span className="ml-2 text-sm font-normal text-muted-foreground">
             {checkedCount}/{totalItems}
           </span>
         </h2>
         <Button variant="secondary" size="sm" onClick={copyToClipboard}>
-          {copied ? '✓ Gekopieerd' : 'Kopieer'}
+          {copied ? t(locale, 'result_copied') : t(locale, 'result_copy')}
         </Button>
       </div>
 

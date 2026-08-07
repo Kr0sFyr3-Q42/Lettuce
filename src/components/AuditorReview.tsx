@@ -4,14 +4,16 @@ import { useState } from 'react'
 import Toggle from '@/components/ui/Toggle'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
+import { type Locale, t } from '@/lib/i18n'
 import type { AuditorProposal } from '@/lib/types'
 
 type Props = {
   proposals: AuditorProposal[]
   onConfirm: (accepted: AuditorProposal[]) => void
+  locale?: Locale
 }
 
-export default function AuditorReview({ proposals, onConfirm }: Props) {
+export default function AuditorReview({ proposals, onConfirm, locale = 'nl' }: Props) {
   const [accepted, setAccepted] = useState<Set<string>>(
     () => new Set(proposals.map(p => p.id))
   )
@@ -32,14 +34,12 @@ export default function AuditorReview({ proposals, onConfirm }: Props) {
     return (
       <div className="space-y-6">
         <Card className="p-6 text-center space-y-2">
-          <p className="text-2xl">🍲</p>
-          <p className="font-medium text-foreground">Geen kliekjes gevonden</p>
-          <p className="text-sm text-muted-foreground">
-            Voeg kliekjes toe via het Kliekjes-menu om ze in te plannen.
-          </p>
+          <p className="text-2xl">{t(locale, 'auditor_empty_icon')}</p>
+          <p className="font-medium text-foreground">{t(locale, 'auditor_empty_title')}</p>
+          <p className="text-sm text-muted-foreground">{t(locale, 'auditor_empty_sub')}</p>
         </Card>
         <Button variant="primary" size="lg" className="w-full" onClick={() => onConfirm([])}>
-          Genereer weekmenu →
+          {t(locale, 'auditor_generate')}
         </Button>
       </div>
     )
@@ -48,10 +48,8 @@ export default function AuditorReview({ proposals, onConfirm }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-foreground mb-1">Kliekjes inplannen</h2>
-        <p className="text-sm text-muted-foreground">
-          De AI heeft deze kliekjes gevonden. Selecteer wat je deze week wil gebruiken.
-        </p>
+        <h2 className="text-lg font-semibold text-foreground mb-1">{t(locale, 'auditor_heading')}</h2>
+        <p className="text-sm text-muted-foreground">{t(locale, 'auditor_sub')}</p>
       </div>
 
       <Card className="divide-y divide-border overflow-hidden">
@@ -65,7 +63,7 @@ export default function AuditorReview({ proposals, onConfirm }: Props) {
             <div className="flex-1">
               <p className="text-sm text-foreground">{proposal.description}</p>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Voorgesteld voor: {proposal.suggested_day}
+                {t(locale, 'auditor_suggested')} {proposal.suggested_day}
               </p>
             </div>
           </div>
@@ -74,10 +72,10 @@ export default function AuditorReview({ proposals, onConfirm }: Props) {
 
       <div className="flex items-center justify-between gap-4">
         <p className="text-xs text-muted-foreground">
-          {accepted.size} van {proposals.length} geselecteerd
+          {accepted.size} {t(locale, 'auditor_of')} {proposals.length} {t(locale, 'auditor_selected')}
         </p>
         <Button variant="primary" size="lg" onClick={handleConfirm}>
-          Genereer weekmenu →
+          {t(locale, 'auditor_generate')}
         </Button>
       </div>
     </div>
