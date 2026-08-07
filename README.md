@@ -45,14 +45,22 @@ Lettuce uses a three-step flow:
 
 Lettuce makes two AI calls per meal plan generation:
 
-| Call | Model | Approx. cost |
-|------|-------|-------------|
-| Kliekjes audit | Claude Haiku 4.5 | ~$0.001 |
-| Meal plan generation | Claude Sonnet 4.5 | ~$0.05–0.15 |
+| Call | Model | Input | Output | Cost/call |
+|------|-------|-------|--------|-----------|
+| Kliekjes audit | Claude Haiku 4.5 | ~1 000 tokens | ~300 tokens | ~$0.002 |
+| Meal plan | Claude Sonnet 4.5 | ~2 000 tokens | ~6 000 tokens | ~$0.10 |
 
-**A full meal plan costs roughly €0.05–0.15 per generation.** The audit is skipped entirely when your kliekjes list is empty.
+**A full meal plan costs roughly $0.10 per generation.** The audit is skipped entirely when your kliekjes list is empty.
 
-Pricing: Haiku 4.5 at $1.00/1M input + $5.00/1M output tokens. Sonnet 4.5 pricing via [Anthropic Console](https://console.anthropic.com).
+### Annual estimate (52 weeks)
+
+| Usage | Cost/year |
+|-------|-----------|
+| Light (simple menus) | ~$3 |
+| Typical | ~$5 |
+| Heavy (culinair tags, full kliekjes) | ~$8 |
+
+About the cost of one coffee per year. Pricing based on Haiku 4.5 at $1.00/$5.00 per 1M tokens and Sonnet 4.5 at ~$3.00/$15.00 per 1M tokens. Current rates via [Anthropic Console](https://console.anthropic.com).
 
 ---
 
