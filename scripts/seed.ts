@@ -5,21 +5,19 @@ import { eq } from 'drizzle-orm'
 const SYSTEM_TAGS = [
   {
     name: 'vegetarisch',
-    prompt_snippet: 'Alle maaltijden zijn vegetarisch. Gebruik geen vlees of vis.',
+    prompt_snippet: 'Geen vlees of vis.',
   },
   {
     name: 'veganistisch',
-    prompt_snippet:
-      'Alle maaltijden zijn veganistisch. Gebruik geen dierlijke producten waaronder zuivel en eieren.',
+    prompt_snippet: 'Geen dierlijke producten, inclusief zuivel en eieren.',
   },
   {
     name: 'glutenvrij',
-    prompt_snippet:
-      'Alle maaltijden zijn glutenvrij. Gebruik geen tarwe, rogge, gerst of spelt.',
+    prompt_snippet: 'Geen tarwe, rogge, gerst of spelt.',
   },
   {
     name: 'lactosevrij',
-    prompt_snippet: 'Vermijd alle zuivelproducten. Gebruik plantaardige alternatieven waar nodig.',
+    prompt_snippet: 'Geen zuivelproducten. Gebruik plantaardige alternatieven.',
   },
 ]
 
@@ -29,7 +27,8 @@ for (const tag of SYSTEM_TAGS) {
     db.insert(tags).values({ ...tag, is_system: true, is_active: true }).run()
     console.log(`Inserted: ${tag.name}`)
   } else {
-    console.log(`Skipped (exists): ${tag.name}`)
+    db.update(tags).set({ prompt_snippet: tag.prompt_snippet }).where(eq(tags.name, tag.name)).run()
+    console.log(`Updated: ${tag.name}`)
   }
 }
 
