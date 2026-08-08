@@ -12,6 +12,10 @@ A self-hosted AI meal planner for your home network. Tell it how many people are
 <img width="2827" height="2042" alt="image" src="https://github.com/user-attachments/assets/d0bcdb52-0291-4ecc-942e-0d12163db67d" />
 
 
+
+https://github.com/user-attachments/assets/b405cd46-4d2a-46c3-968b-e7f028ea27d7
+
+> The video has been fast forwarded (real generation takes around half a minute)
 ---
 
 ## How it works
