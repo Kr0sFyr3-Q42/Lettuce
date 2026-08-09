@@ -11,6 +11,7 @@ const LINKS = [
   { href: '/manage/freezer', label: 'Kliekjes' },
   { href: '/manage/pantry',  label: 'Voorraad' },
   { href: '/saved',          label: 'Opgeslagen' },
+  { href: '/settings',       label: 'Instellingen' },
 ]
 
 export default function MobileNav() {
