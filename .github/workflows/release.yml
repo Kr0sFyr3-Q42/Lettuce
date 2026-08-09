@@ -30,6 +30,7 @@ jobs:
             --exclude='node_modules' \
             --exclude='.git' \
             --exclude='*.tsbuildinfo' \
+            --exclude="lettuce-${{ github.ref_name }}.tar.gz" \
             .
 
       - uses: softprops/action-gh-release@v2
