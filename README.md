@@ -118,6 +118,16 @@ For always-on use, run it via PM2 or a systemd service on a home server or NAS.
 
 ---
 
+## Security
+
+**Lettuce has no authentication layer.** Anyone who can reach the server can use the app and trigger AI calls billed to your account.
+
+If you store your API key via the Settings page, it is saved as **plaintext in the local SQLite database** (`local.db`) — similar to keeping it in a `.env` file. Treat the database file accordingly.
+
+Only run Lettuce on a network you trust. Do not expose it to the internet without additional protection such as a reverse proxy with authentication, a VPN, or strict firewall rules. Running it on an untrusted or public network is entirely at your own risk — the authors accept no responsibility for unauthorised API usage or any resulting costs.
+
+---
+
 ## Contributing
 
 Contributions are welcome. Open an issue first for anything beyond small fixes so we can align on approach before you put in the work.
