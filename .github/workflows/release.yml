@@ -27,9 +27,10 @@ jobs:
       - name: Package release artifact
         run: |
           tar -czf /tmp/lettuce-${{ github.ref_name }}.tar.gz \
-            --exclude='node_modules' \
-            --exclude='.git' \
-            --exclude='*.tsbuildinfo' \
+            --exclude='./node_modules' \
+            --exclude='./.git' \
+            --exclude='./*.tsbuildinfo' \
+            --transform "s|^\.|lettuce-${{ github.ref_name }}|" \
             .
           mv /tmp/lettuce-${{ github.ref_name }}.tar.gz .
 

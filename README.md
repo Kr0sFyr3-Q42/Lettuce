@@ -47,6 +47,7 @@ Lettuce uses a three-step flow:
 - [Tailwind CSS v4](https://tailwindcss.com)
 - [Drizzle ORM](https://orm.drizzle.team) + SQLite — runs locally, no cloud DB needed
 - [Anthropic SDK](https://docs.anthropic.com) — Claude Haiku 4.5 (auditor) + Claude Sonnet 4.5 (planner)
+- [Motion](https://motion.dev) — animations
 
 ---
 
@@ -77,10 +78,27 @@ About the cost of one coffee per year. Pricing based on Haiku 4.5 at $1.00/$5.00
 
 ### Prerequisites
 
-- Node.js 20+
-- An [Anthropic API key](https://console.anthropic.com)
+- Node.js 24+
+- An [Anthropic API key](https://console.anthropic.com) _(optional at setup — can be added later via Settings)_
 
-### Install
+---
+
+### Option A — Pre-built release _(recommended)_
+
+Download the latest `lettuce-vX.X.X.tar.gz` from the [Releases page](https://github.com/Kr0sFyr3-Q42/lettuce/releases).
+
+```bash
+tar -xzf lettuce-vX.X.X.tar.gz   # replace vX.X.X with the actual version number found in Releases
+cd lettuce-vX.X.X
+npm install
+npm start   # runs db:migrate automatically, then starts on http://localhost:3000
+```
+
+The build is already included — no compilation needed.
+
+---
+
+### Option B — Build from source
 
 ```bash
 git clone https://github.com/Kr0sFyr3-Q42/lettuce.git
@@ -88,14 +106,14 @@ cd lettuce
 npm install
 ```
 
-### Configure
+Optionally set your API key upfront:
 
 ```bash
 cp .env.example .env.local
-# Fill in ANTHROPIC_API_KEY in .env.local
+# set ANTHROPIC_API_KEY in .env.local (or add it later via Settings)
 ```
 
-### Run
+Then seed and run in dev mode:
 
 ```bash
 npm run db:migrate   # set up the local SQLite database
@@ -103,16 +121,18 @@ npm run db:seed      # seed system tags and pantry basics
 npm run dev          # http://localhost:3000
 ```
 
----
-
-## Self-Hosting
-
-Lettuce is designed for your local network — no cloud account or auth required. Run it on any machine and access it from any browser on the same network.
+Or build for production:
 
 ```bash
 npm run build
 npm start
 ```
+
+---
+
+## Self-Hosting
+
+Lettuce is designed for your local network — no cloud account or auth required. Run it on any machine and access it from any browser on the same network.
 
 For always-on use, run it via PM2 or a systemd service on a home server or NAS.
 
