@@ -26,12 +26,12 @@ jobs:
 
       - name: Package release artifact
         run: |
-          tar -czf lettuce-${{ github.ref_name }}.tar.gz \
+          tar -czf /tmp/lettuce-${{ github.ref_name }}.tar.gz \
             --exclude='node_modules' \
             --exclude='.git' \
             --exclude='*.tsbuildinfo' \
-            --exclude="lettuce-${{ github.ref_name }}.tar.gz" \
             .
+          mv /tmp/lettuce-${{ github.ref_name }}.tar.gz .
 
       - uses: softprops/action-gh-release@v2
         with:
