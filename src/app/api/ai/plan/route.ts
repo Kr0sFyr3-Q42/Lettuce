@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { toApiError } from '@/lib/ai/errors'
+import { MOCK_ENABLED, MOCK_PLAN } from '@/lib/ai/mock'
 import { db } from '@/lib/db'
 import { pantry_inventory, meal_history, tags } from '@/lib/db/schema'
 import { gte } from 'drizzle-orm'
@@ -65,6 +66,7 @@ const PLANNER_TOOL: Anthropic.Tool = {
 }
 
 export async function POST(req: Request) {
+  if (MOCK_ENABLED) return Response.json(MOCK_PLAN)
   try {
     const { persons_per_day, tag_assignments, accepted_proposals } = await req.json() as {
       persons_per_day: Record<string, number>
