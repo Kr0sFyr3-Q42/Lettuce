@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { pantry_inventory, meal_history, tags } from '@/lib/db/schema'
 import { gte } from 'drizzle-orm'
 import { buildPlannerPrompt } from '@/lib/ai/prompt-assembly'
+import { saved_menus } from '@/lib/db/schema'
 import type { PlannerOutput, TagAssignments, AuditorProposal } from '@/lib/types'
 
 const client = new Anthropic()
@@ -133,6 +134,18 @@ export async function POST(req: Request) {
         }).run()
       }
     }
+
+    const label = new Date().toLocaleString('nl-NL', {
+      day: 'numeric', month: 'long', year: 'numeric',
+      hour: '2-digit', minute: '2-digit',
+    })
+    db.insert(saved_menus).values({
+      name:            `Gegenereerd op ${label}`,
+      menu_data:       JSON.stringify(output),
+      persons_per_day: JSON.stringify(persons_per_day),
+      created_at:      new Date().toISOString(),
+      is_autosaved:    true,
+    }).run()
 
     return Response.json(output)
   } catch (e: unknown) {
