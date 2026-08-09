@@ -6,14 +6,14 @@ export const MOCK_AUDITOR: AuditorOutput = {
   proposals: [
     {
       id: 'mock-1',
-      description: 'Ik zie 2 porties stoofvlees — plannen op woensdag?',
-      suggested_day: 'Woensdag',
+      description: 'Ik zie 3 porties technical debt — plannen voor maandag?',
+      suggested_day: 'Maandag',
       freezer_item_id: 1,
     },
     {
       id: 'mock-2',
-      description: 'Er is nog soep over — perfect voor dinsdag.',
-      suggested_day: 'Dinsdag',
+      description: 'Er liggen nog onafgemaakte features in de vriezer.',
+      suggested_day: 'Vrijdag',
       freezer_item_id: 2,
     },
   ],
@@ -24,70 +24,82 @@ export const MOCK_PLAN: PlannerOutput = {
     {
       day: 'Maandag',
       persons: 2,
-      meals: [{ name: 'Pasta carbonara', recipe_steps: ['Kook pasta.', 'Bak spek uit.', 'Meng eieren met kaas.', 'Combineer alles.'] }],
+      meals: [{
+        name: 'Stack Overflow Soep',
+        recipe_steps: ['Kopieer recept van internet.', 'Werkt niet.', 'Kopieer een ander recept.', 'Werkt ook niet.', 'Bestel pizza.'],
+      }],
     },
     {
       day: 'Dinsdag',
       persons: 2,
-      meals: [{ name: 'Tomatensoep (kliekje)', recipe_steps: ['Verwarm de soep op laag vuur.', 'Serveer met brood.'] }],
+      meals: [{
+        name: 'npm install Pasta',
+        recipe_steps: ['Run npm install.', 'Wacht 45 minuten.', 'Er zijn 847 dependencies geïnstalleerd.', '3 hebben een critical vulnerability.', 'Eet de pasta rauw.'],
+      }],
     },
     {
       day: 'Woensdag',
-      persons: 4,
-      meals: [{ name: 'Stoofvlees (kliekje) met aardappelpuree', recipe_steps: ['Verwarm het stoofvlees.', 'Kook aardappelen en stamp fijn.', 'Serveer samen.'] }],
+      persons: 2,
+      meals: [{
+        name: '404 Risotto',
+        recipe_steps: ['Zoek ingrediënten.', 'Ingrediënten niet gevonden.', 'Probeer het opnieuw.', '404 ingrediënten not found.', 'Eet beschuit.'],
+      }],
     },
     {
       day: 'Donderdag',
       persons: 2,
-      meals: [{ name: 'Gebakken kip met groenten', recipe_steps: ['Kruid de kip.', 'Bak 25 min op 200°C.', 'Rooster groenten mee.'] }],
+      meals: [{
+        name: 'Merge Conflict Salade',
+        recipe_steps: ['Maak sla aan.', 'Maak ook een andere sla aan.', 'Probeer ze samen te voegen.', '<<<<<<< HEAD', 'Gooi beide salades weg.'],
+      }],
     },
     {
       day: 'Vrijdag',
       persons: 2,
-      meals: [{ name: 'Zalmfilet met rijst', recipe_steps: ['Kook rijst.', 'Bak zalm 4 min per kant.', 'Serveer met citroen.'] }],
+      meals: [{
+        name: 'Undefined Behavior Stew',
+        recipe_steps: ['Voeg willekeurige ingrediënten toe.', 'Resultaat is ongedefinieerd.', 'Kan heerlijk zijn.', 'Kan ook vergiftigd zijn.', 'Alleen testen in productie.'],
+      }],
     },
     {
       day: 'Zaterdag',
       persons: 2,
-      meals: [{ name: 'Zelfgemaakte pizza', recipe_steps: ['Maak deeg.', 'Beleg naar smaak.', 'Bak 12 min op 230°C.'] }],
+      meals: [{
+        name: 'Recursieve Lasagne',
+        recipe_steps: ['Maak een lasagne.', 'Voeg een lasagne toe als laag.', 'Voeg nog een lasagne toe als laag.', 'Maximum call stack size exceeded.', 'Bel de brandweer.'],
+      }],
     },
     {
       day: 'Zondag',
       persons: 2,
-      meals: [{ name: 'Geroosterde groenteschotel', recipe_steps: ['Snijd groenten grof.', 'Meng met olijfolie en kruiden.', 'Rooster 35 min op 200°C.'] }],
+      meals: [{
+        name: 'Hello World Hagelslag',
+        recipe_steps: ['Pak twee boterhammen.', 'Doe hagelslag erop.', 'console.log("Eet smakelijk").', 'Dit is het enige recept dat altijd werkt.'],
+      }],
     },
   ],
   shopping_list: [
     {
-      department: 'Vlees & vis',
+      department: 'Hardware',
       items: [
-        { name: 'Kipfilet', quantity: '300', unit: 'gram' },
-        { name: 'Zalmfilet', quantity: '300', unit: 'gram' },
-        { name: 'Spek', quantity: '150', unit: 'gram' },
+        { name: 'Rubber duck', quantity: '1', unit: 'stuk' },
+        { name: 'Monitors', quantity: '3', unit: 'stuks' },
+        { name: 'Mechanisch toetsenbord', quantity: '1', unit: 'stuk' },
       ],
     },
     {
-      department: 'Groenten & fruit',
+      department: 'Dranken',
       items: [
-        { name: 'Aardappelen', quantity: '1000', unit: 'gram' },
-        { name: 'Courgette', quantity: '2', unit: 'stuks' },
-        { name: 'Paprika', quantity: '2', unit: 'stuks' },
-        { name: 'Citroen', quantity: '1', unit: 'stuk' },
+        { name: 'Koffie', quantity: '∞', unit: 'liter' },
+        { name: 'Energy drink', quantity: '24', unit: 'blikjes' },
       ],
     },
     {
-      department: 'Zuivel & eieren',
+      department: 'Overig',
       items: [
-        { name: 'Eieren', quantity: '4', unit: 'stuks' },
-        { name: 'Parmezaanse kaas', quantity: '100', unit: 'gram' },
-      ],
-    },
-    {
-      department: 'Rijst, pasta & wereldkeuken',
-      items: [
-        { name: 'Spaghetti', quantity: '500', unit: 'gram' },
-        { name: 'Rijst', quantity: '500', unit: 'gram' },
-        { name: 'Pizzadeeg', quantity: '1', unit: 'pak' },
+        { name: 'Technical debt', quantity: '847', unit: 'regels code' },
+        { name: 'Onafgemaakte TODO comments', quantity: '23', unit: 'stuks' },
+        { name: 'Stack traces', quantity: '∞', unit: 'paginas' },
       ],
     },
   ],
