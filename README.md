@@ -91,7 +91,7 @@ Download the latest `lettuce-vX.X.X.tar.gz` from the [Releases page](https://git
 tar -xzf lettuce-vX.X.X.tar.gz   # replace vX.X.X with the actual version number found in Releases
 cd lettuce-vX.X.X
 npm install
-npm start   # runs db:migrate + db:seed automatically, then starts on http://localhost:3000
+npm start   # http://localhost:3000
 ```
 
 The build is already included — no compilation needed.
