@@ -80,6 +80,11 @@ export default function SavedPage() {
     loadList()
   }
 
+  async function deleteAllAutosaved() {
+    await fetch('/api/saved-menus', { method: 'DELETE' })
+    loadList()
+  }
+
   function rescale() {
     if (!detail) return
     const original = avgPersons(detail.personsPerDay)
@@ -163,7 +168,9 @@ export default function SavedPage() {
     <Card key={item.id} className="flex items-center justify-between px-4 py-3">
       <div>
         <p className="font-medium text-sm text-foreground">{item.name}</p>
-        <p className="text-xs text-muted-foreground">{item.created_at}</p>
+        <p className="text-xs text-muted-foreground">
+          {new Date(item.created_at).toLocaleString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+        </p>
       </div>
       <div className="flex items-center gap-2">
         <Button size="sm" variant="secondary" onClick={() => openMenu(item)}>Laden</Button>
@@ -202,6 +209,9 @@ export default function SavedPage() {
             <p className="text-sm text-muted-foreground mt-0.5">
               Elk gegenereerd menu wordt automatisch bewaard zodat je het nooit kwijtraakt.
             </p>
+            <Button size="sm" variant="ghost" onClick={deleteAllAutosaved} className="mt-2 -ml-2">
+              <span className="text-red-500">Alles verwijderen</span>
+            </Button>
           </div>
           <div className="space-y-3">
             {autosaved.map(item => <MenuRow key={item.id} item={item} />)}

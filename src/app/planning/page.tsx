@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AuditorReview from '@/components/AuditorReview'
+import AuditLoadingScreen from '@/components/AuditLoadingScreen'
 import type { AuditorOutput, AuditorProposal, LettuceSession } from '@/lib/types'
+
+const MIN_LOADING_MS = 3000
 
 type State =
   | { status: 'loading' }
@@ -25,7 +28,7 @@ export default function PlanningPage() {
 
       const session: LettuceSession = JSON.parse(raw)
 
-      const res = await fetch('/api/ai/audit', {
+      const fetchPromise = fetch('/api/ai/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -33,6 +36,11 @@ export default function PlanningPage() {
           tag_assignments: session.tagAssignments,
         }),
       })
+
+      const [res] = await Promise.all([
+        fetchPromise,
+        new Promise(r => setTimeout(r, MIN_LOADING_MS)),
+      ])
 
       if (!res.ok) {
         const { error } = await res.json()
@@ -58,21 +66,8 @@ export default function PlanningPage() {
     router.push('/result')
   }
 
-  if (state.status === 'loading') {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-3">
-          <p className="text-4xl animate-pulse">🧠</p>
-          <p className="font-medium text-foreground">AI is aan het nadenken...</p>
-          <p className="text-sm text-muted-foreground">Kliekjes en eetgeschiedenis worden gescand</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (state.status === 'error') {
-    throw new Error(state.message)
-  }
+  if (state.status === 'loading') return <AuditLoadingScreen />
+  if (state.status === 'error') throw new Error(state.message)
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">

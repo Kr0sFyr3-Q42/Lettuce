@@ -1,6 +1,6 @@
 import { db } from '@/lib/db'
 import { saved_menus } from '@/lib/db/schema'
-import { desc } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 import { NextRequest } from 'next/server'
 
 export async function GET() {
@@ -15,6 +15,11 @@ export async function GET() {
     .orderBy(desc(saved_menus.created_at))
     .all()
   return Response.json(rows)
+}
+
+export async function DELETE() {
+  db.delete(saved_menus).where(eq(saved_menus.is_autosaved, true)).run()
+  return new Response(null, { status: 204 })
 }
 
 export async function POST(req: NextRequest) {

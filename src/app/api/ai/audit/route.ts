@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { toApiError } from '@/lib/ai/errors'
+import { MOCK_ENABLED, MOCK_AUDITOR } from '@/lib/ai/mock'
 import { db } from '@/lib/db'
 import { freezer_inventory, meal_history, tags } from '@/lib/db/schema'
 import { gte } from 'drizzle-orm'
@@ -34,6 +35,10 @@ const AUDITOR_TOOL: Anthropic.Tool = {
 }
 
 export async function POST(req: Request) {
+  if (MOCK_ENABLED) {
+    await new Promise(r => setTimeout(r, 3_000))
+    return Response.json(MOCK_AUDITOR)
+  }
   try {
     const { persons_per_day, tag_assignments } = await req.json() as {
       persons_per_day: Record<string, number>
