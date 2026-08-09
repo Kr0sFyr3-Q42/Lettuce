@@ -32,10 +32,10 @@ export default function LoadingScreen({ auditor }: Props) {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="text-center space-y-4">
+      <div className="space-y-4">
 
-        {/* One sentence: "🥬 Lettuce [phrase]" — phrase is capped at ~15 chars */}
-        <p className="text-3xl font-bold tracking-tight text-foreground">
+        {/* Fixed-width container, left-aligned so "🥬 Lettuce" never moves */}
+        <p className="text-3xl font-bold tracking-tight text-foreground w-80">
           🥬 Lettuce{' '}
           <AnimatePresence mode="wait">
             <motion.span key={phrase} className="inline-flex" aria-live="polite">
