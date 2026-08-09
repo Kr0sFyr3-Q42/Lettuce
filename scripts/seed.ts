@@ -3,16 +3,15 @@ import { tags, pantry_inventory } from '../src/lib/db/schema'
 import { eq, and } from 'drizzle-orm'
 
 const SYSTEM_TAGS = [
-  { name: 'Vegetarisch',  prompt_snippet: 'Geen vlees of vis.' },
-  { name: 'Veganistisch', prompt_snippet: 'Geen dierlijke producten, inclusief zuivel en eieren.' },
-  { name: 'Glutenvrij',   prompt_snippet: 'Geen tarwe, rogge, gerst of spelt.' },
-  { name: 'Lactosevrij',  prompt_snippet: 'Geen zuivelproducten. Gebruik plantaardige alternatieven.' },
-  { name: 'Simpel',       prompt_snippet: 'Maak een snelle, eenvoudige doordeweekse maaltijd. Maximaal 30 minuten bereidingstijd.' },
 
   // Dieet / medisch
   { name: 'Diabetesvriendelijk', prompt_snippet: 'Kies maaltijden die laag zijn in snelle suikers en bewerkte koolhydraten. Gebruik volkoren varianten, peulvruchten en groenten met een lage glycemische index. Beperk witte rijst, wit brood en suikerhoudende sauzen.' },
   { name: 'Hartgezond',         prompt_snippet: 'Beperk verzadigd vet en zout. Kies voor onverzadigde vetten (olijfolie, avocado, noten) en vette vis rijk aan omega-3. Gebruik veel groenten, peulvruchten en volkoren granen.' },
   { name: 'Hoog-eiwit',         prompt_snippet: 'Elke maaltijd moet minimaal 30 gram eiwit bevatten. Gebruik eiwitrijke ingrediënten zoals kip, vis, eieren, Griekse yoghurt, kwark, tempeh of peulvruchten.' },
+  { name: 'Vegetarisch',  prompt_snippet: 'Geen vlees of vis.' },
+  { name: 'Veganistisch', prompt_snippet: 'Geen dierlijke producten, inclusief zuivel en eieren.' },
+  { name: 'Glutenvrij',   prompt_snippet: 'Geen tarwe, rogge, gerst of spelt.' },
+  { name: 'Lactosevrij',  prompt_snippet: 'Geen zuivelproducten. Gebruik plantaardige alternatieven.' },
 
   // Praktisch
   { name: 'Meal prep',          prompt_snippet: 'Kies maaltijden die goed van tevoren te bereiden zijn en minstens 3 dagen in de koelkast of vriezer bewaard kunnen worden. Geef voorkeur aan gerechten die koud of opgewarmd even lekker zijn.' },
@@ -20,6 +19,7 @@ const SYSTEM_TAGS = [
   { name: 'Kindvriendelijk',    prompt_snippet: 'Maak milde, vertrouwde maaltijden zonder sterke kruiden of pittige smaken. Vermijd rare texturen. Denk aan pasta, pannenkoeken, gehaktballen en ovenschotels die kinderen graag eten.' },
   { name: 'Culinair',           prompt_snippet: 'Maak een sophistisch, restaurant-waardig gerecht. Gebruik bijzondere technieken, hoogwaardige ingrediënten en complexe smaken. Denk aan gerechten zoals confit, osso buco, beef wellington of een klassieke bisque.' },
   { name: 'Budget',            prompt_snippet: 'Kies budget-vriendelijke maaltijden. Gebruik goedkope eiwitbronnen zoals eieren, peulvruchten, kip of gehakt. Vermijd dure ingrediënten zoals oesters, truffels, wagyu of zeevruchten. Prioriteer seizoensgroenten en bulkproducten zoals pasta, rijst en linzen.' },
+  { name: 'Simpel',       prompt_snippet: 'Maak een snelle, eenvoudige doordeweekse maaltijd. Maximaal 30 minuten bereidingstijd.' },
 
   // Seizoen
   { name: 'Zomers',             prompt_snippet: 'Kies lichte, frisse maaltijden die passen bij warm weer. Gebruik veel salades, gegrilde groenten en vis, koude gerechten en mediterrane smaken. Vermijd zware stoofpotten en veel vet.' },
