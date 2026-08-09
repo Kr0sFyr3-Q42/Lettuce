@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { shufflePhrases } from '@/lib/loading-phrases'
 
 const PHRASE_DURATION = 2800
@@ -35,10 +35,11 @@ export default function LoadingScreen({ auditor }: Props) {
       <div className="text-center space-y-4">
 
         {/* Centered, never wraps — phrase extends right of "Lettuce" */}
+        <LayoutGroup>
         <p className="text-3xl font-bold tracking-tight text-foreground whitespace-nowrap">
-          <motion.span layout="position" className="inline">🥬 Lettuce </motion.span>
+          <motion.span layout="position" className="inline-block">🥬 Lettuce </motion.span>
           <AnimatePresence mode="wait">
-            <motion.span key={phrase} className="inline-flex" aria-live="polite">
+            <motion.span layout key={phrase} className="inline-flex" aria-live="polite">
               {phrase.split('').map((char, i) => (
                 <motion.span
                   key={i}
@@ -53,6 +54,7 @@ export default function LoadingScreen({ auditor }: Props) {
             </motion.span>
           </AnimatePresence>
         </p>
+        </LayoutGroup>
 
         {/* Timed subtitles */}
         <AnimatePresence mode="wait">
