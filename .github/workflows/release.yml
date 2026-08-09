@@ -20,7 +20,11 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run db:migrate
+
       - run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
 
       - uses: softprops/action-gh-release@v2
         with:
