@@ -36,7 +36,7 @@ const AUDITOR_TOOL: Anthropic.Tool = {
 
 export async function POST(req: Request) {
   if (MOCK_ENABLED) {
-    await new Promise(r => setTimeout(r, 20_000))
+    await new Promise(r => setTimeout(r, 3_000))
     return Response.json(MOCK_AUDITOR)
   }
   try {
