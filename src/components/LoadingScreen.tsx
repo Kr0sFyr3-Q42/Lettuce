@@ -32,17 +32,13 @@ export default function LoadingScreen({ auditor }: Props) {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="text-center space-y-3">
+      <div className="text-center space-y-4">
 
-        {/* Static — never moves */}
+        {/* One sentence: "🥬 Lettuce [phrase]" — phrase is capped at ~15 chars */}
         <p className="text-3xl font-bold tracking-tight text-foreground">
-          🥬 Lettuce
-        </p>
-
-        {/* Animated phrase on its own fixed-height line */}
-        <div className="h-9 flex items-center justify-center" aria-live="polite">
+          🥬 Lettuce{' '}
           <AnimatePresence mode="wait">
-            <motion.span key={phrase} className="inline-flex text-2xl font-semibold text-primary">
+            <motion.span key={phrase} className="inline-flex" aria-live="polite">
               {phrase.split('').map((char, i) => (
                 <motion.span
                   key={i}
@@ -56,7 +52,7 @@ export default function LoadingScreen({ auditor }: Props) {
               ))}
             </motion.span>
           </AnimatePresence>
-        </div>
+        </p>
 
         {/* Timed subtitles */}
         <AnimatePresence mode="wait">

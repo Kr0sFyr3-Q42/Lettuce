@@ -1,19 +1,20 @@
+// Max ~15 characters per phrase so the heading stays visually stable
 export const LOADING_PHRASES = [
   'Cook',
   'Plan',
-  'find the good ingredients',
   'add some spice',
   'wrap it up',
   'make a salad',
   'look some more',
   'get cooking',
   'check the fridge',
-  'think of something tasty',
   'mix it up',
   'keep it fresh',
   'season to taste',
   'chop chop',
   'heat things up',
+  'think big',
+  'stay hungry',
 ]
 
 export function shufflePhrases(): string[] {
