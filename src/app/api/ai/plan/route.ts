@@ -66,7 +66,10 @@ const PLANNER_TOOL: Anthropic.Tool = {
 }
 
 export async function POST(req: Request) {
-  if (MOCK_ENABLED) return Response.json(MOCK_PLAN)
+  if (MOCK_ENABLED) {
+    await new Promise(r => setTimeout(r, 20_000))
+    return Response.json(MOCK_PLAN)
+  }
   try {
     const { persons_per_day, tag_assignments, accepted_proposals } = await req.json() as {
       persons_per_day: Record<string, number>
