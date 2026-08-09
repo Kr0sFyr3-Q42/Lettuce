@@ -8,8 +8,6 @@ const SYSTEM_TAGS = [
   { name: 'Glutenvrij',   prompt_snippet: 'Geen tarwe, rogge, gerst of spelt.' },
   { name: 'Lactosevrij',  prompt_snippet: 'Geen zuivelproducten. Gebruik plantaardige alternatieven.' },
   { name: 'Simpel',       prompt_snippet: 'Maak een snelle, eenvoudige doordeweekse maaltijd. Maximaal 30 minuten bereidingstijd.' },
-  { name: 'Culinair',           prompt_snippet: 'Maak een sophistisch, restaurant-waardig gerecht. Gebruik bijzondere technieken, hoogwaardige ingrediënten en complexe smaken. Denk aan gerechten zoals confit, osso buco, beef wellington of een klassieke bisque.' },
-  { name: 'Budget',            prompt_snippet: 'Kies budget-vriendelijke maaltijden. Gebruik goedkope eiwitbronnen zoals eieren, peulvruchten, kip of gehakt. Vermijd dure ingrediënten zoals oesters, truffels, wagyu of zeevruchten. Prioriteer seizoensgroenten en bulkproducten zoals pasta, rijst en linzen. Het totale boodschappenbudget mag niet meer zijn dan €50 voor de hele week.' },
 
   // Dieet / medisch
   { name: 'Diabetesvriendelijk', prompt_snippet: 'Kies maaltijden die laag zijn in snelle suikers en bewerkte koolhydraten. Gebruik volkoren varianten, peulvruchten en groenten met een lage glycemische index. Beperk witte rijst, wit brood en suikerhoudende sauzen.' },
@@ -20,6 +18,8 @@ const SYSTEM_TAGS = [
   { name: 'Meal prep',          prompt_snippet: 'Kies maaltijden die goed van tevoren te bereiden zijn en minstens 3 dagen in de koelkast of vriezer bewaard kunnen worden. Geef voorkeur aan gerechten die koud of opgewarmd even lekker zijn.' },
   { name: 'Eenpansgerecht',     prompt_snippet: 'Alle maaltijden moeten in één pan, pot of wokpan bereid kunnen worden. Minimale afwas, maximale smaak. Denk aan stoofpotten, wokgerechten, ovenschotels en soepen.' },
   { name: 'Kindvriendelijk',    prompt_snippet: 'Maak milde, vertrouwde maaltijden zonder sterke kruiden of pittige smaken. Vermijd rare texturen. Denk aan pasta, pannenkoeken, gehaktballen en ovenschotels die kinderen graag eten.' },
+  { name: 'Culinair',           prompt_snippet: 'Maak een sophistisch, restaurant-waardig gerecht. Gebruik bijzondere technieken, hoogwaardige ingrediënten en complexe smaken. Denk aan gerechten zoals confit, osso buco, beef wellington of een klassieke bisque.' },
+  { name: 'Budget',            prompt_snippet: 'Kies budget-vriendelijke maaltijden. Gebruik goedkope eiwitbronnen zoals eieren, peulvruchten, kip of gehakt. Vermijd dure ingrediënten zoals oesters, truffels, wagyu of zeevruchten. Prioriteer seizoensgroenten en bulkproducten zoals pasta, rijst en linzen.' },
 
   // Seizoen
   { name: 'Zomers',             prompt_snippet: 'Kies lichte, frisse maaltijden die passen bij warm weer. Gebruik veel salades, gegrilde groenten en vis, koude gerechten en mediterrane smaken. Vermijd zware stoofpotten en veel vet.' },
