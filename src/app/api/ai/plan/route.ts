@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { toApiError } from '@/lib/ai/errors'
+import { getApiKey } from '@/lib/ai/get-api-key'
 import { MOCK_ENABLED, MOCK_PLAN } from '@/lib/ai/mock'
 import { db } from '@/lib/db'
 import { pantry_inventory, meal_history, tags } from '@/lib/db/schema'
@@ -8,7 +9,6 @@ import { buildPlannerPrompt } from '@/lib/ai/prompt-assembly'
 import { saved_menus } from '@/lib/db/schema'
 import type { PlannerOutput, TagAssignments, AuditorProposal } from '@/lib/types'
 
-const client = new Anthropic()
 const MODEL = 'claude-sonnet-4-5'
 
 const PLANNER_TOOL: Anthropic.Tool = {
@@ -72,6 +72,7 @@ export async function POST(req: Request) {
     return Response.json(MOCK_PLAN)
   }
   try {
+    const client = new Anthropic({ apiKey: getApiKey() })
     const { persons_per_day, tag_assignments, accepted_proposals } = await req.json() as {
       persons_per_day: Record<string, number>
       tag_assignments: TagAssignments

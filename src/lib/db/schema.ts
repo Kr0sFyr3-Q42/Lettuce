@@ -40,3 +40,8 @@ export const saved_menus = sqliteTable('saved_menus', {
   created_at:      text('created_at').notNull(),
   is_autosaved:    integer('is_autosaved', { mode: 'boolean' }).notNull().default(false),
 })
+
+export const app_settings = sqliteTable('app_settings', {
+  key:   text('key').primaryKey(),
+  value: text('value'),
+})
