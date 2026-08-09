@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import MenuDisplay from '@/components/MenuDisplay'
 import ShoppingList from '@/components/ShoppingList'
 import Button from '@/components/ui/Button'
+import LoadingScreen from '@/components/LoadingScreen'
 import type { LettuceSession, PlannerOutput } from '@/lib/types'
 
 type State =
@@ -122,17 +123,7 @@ export default function ResultPage() {
     router.push('/')
   }
 
-  if (state.status === 'loading') {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-3">
-          <p className="text-4xl animate-pulse">🥬</p>
-          <p className="font-medium text-foreground">Weekmenu wordt gegenereerd...</p>
-          <p className="text-sm text-muted-foreground">Even geduld, dit duurt 15–30 seconden</p>
-        </div>
-      </div>
-    )
-  }
+  if (state.status === 'loading') return <LoadingScreen />
 
   if (state.status === 'error') throw new Error(state.message)
 
