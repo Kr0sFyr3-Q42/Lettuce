@@ -37,7 +37,7 @@ export default function LoadingScreen({ auditor }: Props) {
         {/* Centered, never wraps — phrase extends right of "Lettuce" */}
         <LayoutGroup>
         <p className="text-3xl font-bold tracking-tight text-foreground whitespace-nowrap">
-          <motion.span layout="position" className="inline-block">🥬 Lettuce </motion.span>
+          <motion.span layout="position" className="inline-block">🥬 Lettuce</motion.span>{' '}
           <AnimatePresence mode="wait">
             <motion.span layout key={phrase} className="inline-flex" aria-live="polite">
               {phrase.split('').map((char, i) => (
