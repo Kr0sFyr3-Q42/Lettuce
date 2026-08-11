@@ -65,8 +65,8 @@ export default function SettingsPage() {
         </div>
 
         {info?.hasStoredKey ? (
-          <div className="flex items-center justify-between gap-3 rounded-lg bg-secondary px-3 py-2">
-            <code className="text-xs text-foreground font-mono tracking-wide">{info.maskedKey}</code>
+          <div className="flex items-center justify-between gap-3 rounded-lg bg-secondary px-3 py-2 overflow-hidden">
+            <code className="text-xs text-foreground font-mono tracking-wide min-w-0 truncate">{info.maskedKey}</code>
             <button
               onClick={handleClear}
               disabled={saveState === 'saving'}
@@ -92,7 +92,7 @@ export default function SettingsPage() {
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSave()}
               placeholder="sk-ant-..."
-              className="flex-1 border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-mono"
+              className="flex-1 min-w-0 border border-border rounded-lg px-3 py-2 text-sm bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring font-mono overflow-hidden"
             />
             <button
               type="button"
