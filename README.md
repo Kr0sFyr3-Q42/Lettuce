@@ -130,6 +130,18 @@ npm start
 
 ---
 
+## Development
+
+### Mock mode
+
+Set `MOCK_AI=true` in your environment to skip real API calls during development. The AI routes return hardcoded responses instantly — no API key required, no costs incurred.
+
+```bash
+MOCK_AI=true npm run dev
+```
+
+---
+
 ## Self-Hosting
 
 Lettuce is designed for your local network — no cloud account or auth required. Run it on any machine and access it from any browser on the same network.
